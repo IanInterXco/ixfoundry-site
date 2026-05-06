@@ -1636,6 +1636,61 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
   border-left-color: var(--accent);
 }
 
+.experimental-note {
+  margin-top: 18px;
+  padding: 16px 16px 14px;
+  background: linear-gradient(135deg, rgba(240, 124, 32, 0.06) 0%, rgba(240, 124, 32, 0.02) 100%);
+  border: 1px dashed var(--accent);
+  border-radius: 4px;
+  position: relative;
+}
+
+.exp-header {
+  margin-bottom: 6px;
+}
+
+.exp-tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+}
+
+.exp-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+  animation: expPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes expPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.exp-title {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.exp-text {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
 .output-value {
   font-family: var(--display);
   font-size: 14px;
@@ -1757,18 +1812,18 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
 
 .fee-currency {
   font-family: var(--display);
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--ink-mute);
 }
 
 .fee-number {
   font-family: var(--display);
-  font-size: 72px;
+  font-size: 36px;
   font-weight: 800;
   color: var(--ink);
-  letter-spacing: -0.04em;
-  line-height: 1;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
 }
 
 .fee-amount-scope {
@@ -2200,6 +2255,13 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
           <span class="output-label">You receive</span>
           <span class="output-value">A workflow design, agent recommendations, and a future roadmap</span>
         </div>
+        <div class="experimental-note">
+          <div class="exp-header">
+            <span class="exp-tag">Experimental &middot; included at no extra cost</span>
+          </div>
+          <p class="exp-title">Fourscore AI Wiki</p>
+          <p class="exp-text">A new feature we&rsquo;re developing: a living, Wikipedia-style knowledge base of your business. It grows with every conversation we have and every document you share &mdash; capturing not just the documented procedures, but the tacit, institutional knowledge that usually lives only in people&rsquo;s heads. The idea: future features can be designed against the wiki as our first source of context, rather than pulling Stephanie or Jesse into another walkthrough.</p>
+        </div>
       </div>
 
       <div class="phase-pair">
@@ -2441,7 +2503,7 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
   'use strict';
 
   const W = 880;
-  const H = 1180;
+  const H = 1380;
 
   const COLORS = {
     gray: { fill: '#ECE7DD', stroke: '#B4AE9F', text: '#2C2C2A', sub: '#5F5E5A' },
