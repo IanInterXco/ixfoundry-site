@@ -1,0 +1,3525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fourscore Intake Portal — Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f6f2;
+  --bg-elev: #ffffff;
+  --bg-deep: #efede6;
+  --ink: #0d0c0a;
+  --ink-soft: rgba(13, 12, 10, 0.72);
+  --ink-mute: rgba(13, 12, 10, 0.5);
+  --ink-faint: rgba(13, 12, 10, 0.28);
+  --rule: rgba(13, 12, 10, 0.12);
+  --rule-soft: rgba(13, 12, 10, 0.06);
+  --accent: #f07c20;
+  --accent-hover: #d96810;
+  --accent-soft: #fde7d4;
+  --accent-deep: #8a3d08;
+  --secondary: #1f5a4d;
+  --secondary-soft: #d6e3df;
+  --secondary-deep: #0f3329;
+  --warm: #f07c20;
+  --warm-soft: #fde7d4;
+  --node-gray-bg: #efede6;
+  --node-gray-stroke: rgba(13, 12, 10, 0.32);
+  --node-gray-text: #0d0c0a;
+  --node-blue-bg: #e3eaf3;
+  --node-blue-stroke: #5a7894;
+  --node-blue-text: #1a2d42;
+  --node-amber-bg: #fde7d4;
+  --node-amber-stroke: #f07c20;
+  --node-amber-text: #6e3508;
+  --node-purple-bg: #e8e2f0;
+  --node-purple-stroke: #6f5d96;
+  --node-purple-text: #2a1f4c;
+  --node-teal-bg: #d8e6e0;
+  --node-teal-stroke: #4a7d72;
+  --node-teal-text: #143631;
+  --node-coral-bg: #f3dccc;
+  --node-coral-stroke: #b9683f;
+  --node-coral-text: #4a2008;
+  --node-green-bg: #dde6cd;
+  --node-green-stroke: #708a4d;
+  --node-green-text: #2a3814;
+  --display: 'Epilogue', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --shadow-soft: 0 1px 0 rgba(13, 12, 10, 0.04), 0 8px 32px -12px rgba(13, 12, 10, 0.08);
+  --shadow-card: 0 1px 0 rgba(13, 12, 10, 0.05), 0 12px 48px -16px rgba(13, 12, 10, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(240, 124, 32, 0.04) 0%, transparent 28%),
+    radial-gradient(circle at 88% 4%, rgba(240, 124, 32, 0.03) 0%, transparent 32%);
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
+  filter: blur(14px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.auth-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(247, 246, 242, 0.85);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-gate[hidden] { display: none; }
+
+.auth-shield {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(247, 246, 242, 0.6);
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+}
+
+.auth-shield[hidden] { display: none; }
+
+.auth-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 40px 44px 36px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 24px 64px -16px rgba(13, 12, 10, 0.18), 0 1px 0 rgba(13, 12, 10, 0.04);
+  text-align: left;
+}
+
+.auth-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--ink);
+  color: var(--bg-elev);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.auth-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-family: var(--sans);
+}
+
+.auth-title {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.15;
+}
+
+.auth-lede {
+  font-size: 14px;
+  color: var(--ink-mute);
+  line-height: 1.55;
+  margin-bottom: 24px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.auth-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.auth-input {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 11px 14px;
+  font-size: 15px;
+  font-family: var(--sans);
+  color: var(--ink);
+  transition: border-color 0.15s ease, background 0.15s ease;
+  outline: none;
+}
+
+.auth-input:focus {
+  border-color: var(--accent);
+  background: var(--bg-elev);
+  box-shadow: 0 0 0 3px rgba(240, 124, 32, 0.12);
+}
+
+.auth-input.is-error {
+  border-color: var(--accent);
+  animation: authShake 0.32s ease;
+}
+
+@keyframes authShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+}
+
+.auth-error {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  height: 16px;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.auth-submit {
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 11px 18px;
+  font-size: 14px;
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+  margin-top: 14px;
+}
+
+.auth-submit:hover { background: var(--accent-hover); }
+.auth-submit:active { transform: scale(0.98); }
+
+.auth-meta {
+  font-size: 11px;
+  color: var(--ink-mute);
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule-soft);
+  font-style: italic;
+  font-family: var(--display);
+}
+
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: var(--bg-elev);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-line {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: var(--ink-mute);
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+.meta-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+
+.meta-divider {
+  opacity: 0.5;
+}
+
+.hero {
+  padding: 88px 32px 72px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 32px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 99px;
+  background: transparent;
+}
+
+.hero-inner > .eyebrow + * {
+  display: block;
+}
+
+.hero-inner .eyebrow {
+  margin-right: auto;
+}
+
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(44px, 7vw, 88px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  margin-bottom: 32px;
+  max-width: 16ch;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.hero-lede {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--ink-mute);
+  max-width: 60ch;
+  font-weight: 400;
+}
+
+.tab-nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(247, 246, 242, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.tab-nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  gap: 0;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 14px 28px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: all 0.2s ease;
+  font-family: var(--sans);
+  color: var(--ink-mute);
+  position: relative;
+}
+
+.tab-btn:hover {
+  background: rgba(240, 124, 32, 0.04);
+  color: var(--ink-soft);
+}
+
+.tab-btn.is-active {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+.tab-num {
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  font-style: italic;
+  color: var(--accent);
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+.tab-btn.is-active .tab-num {
+  opacity: 1;
+}
+
+.tab-label {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.tab-desc {
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-weight: 400;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 32px 80px;
+}
+
+.panel {
+  display: none;
+}
+
+.panel.is-active {
+  display: block;
+  animation: panelFade 0.4s ease;
+}
+
+@keyframes panelFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-head {
+  margin-bottom: 40px;
+  max-width: 800px;
+}
+
+.panel-title {
+  font-family: var(--display);
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 14px;
+  line-height: 1.05;
+}
+
+.panel-lede {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin-bottom: 28px;
+  max-width: 60ch;
+}
+
+.state-toggle {
+  display: inline-flex;
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 4px;
+  gap: 2px;
+}
+
+.state-btn {
+  background: transparent;
+  border: none;
+  padding: 9px 18px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-mute);
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.005em;
+}
+
+.state-btn:hover {
+  color: var(--ink);
+}
+
+.state-btn.is-active {
+  background: var(--ink);
+  color: var(--bg-elev);
+}
+
+.animate-btn {
+  border-left: 1px solid var(--rule);
+  margin-left: 4px;
+  padding-left: 16px;
+}
+
+.play-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--warm);
+  display: inline-block;
+}
+
+.diagram-frame {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-soft);
+}
+
+.diagram-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--rule-soft);
+  background: var(--bg-deep);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-gray { background: var(--node-gray-stroke); }
+.dot-blue { background: var(--node-blue-stroke); }
+.dot-amber { background: var(--node-amber-stroke); }
+.dot-purple { background: var(--node-purple-stroke); }
+.dot-teal { background: var(--node-teal-stroke); }
+.dot-coral { background: var(--node-coral-stroke); }
+.dot-green { background: var(--node-green-stroke); }
+
+.diagram-stage {
+  padding: 36px 24px;
+  position: relative;
+  min-height: 600px;
+  background:
+    linear-gradient(var(--rule-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule-soft) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+}
+
+.diagram-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--bg-elev) 0%, transparent 8%, transparent 92%, var(--bg-elev) 100%);
+  pointer-events: none;
+}
+
+#diagram-mount {
+  position: relative;
+  z-index: 1;
+}
+
+#diagram-mount svg {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  display: block;
+}
+
+.diagram-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--rule-soft);
+}
+
+.stat {
+  padding: 20px 24px;
+  border-right: 1px solid var(--rule-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-label {
+  font-size: 12px;
+  color: var(--ink-mute);
+  letter-spacing: 0.02em;
+}
+
+.stat-value {
+  font-family: var(--display);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+  transition: color 0.4s ease;
+  letter-spacing: -0.025em;
+}
+
+.stat-delta {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  height: 16px;
+}
+
+.diagram-hint {
+  font-size: 13px;
+  color: var(--ink-mute);
+  margin: 0 4px 32px;
+  font-style: italic;
+  font-family: var(--display);
+}
+
+.step-popover {
+  position: fixed;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--bg-elev);
+  border-radius: 4px;
+  padding: 12px 16px;
+  max-width: 320px;
+  box-shadow: 0 4px 24px -4px rgba(27, 31, 26, 0.25), 0 1px 0 rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.step-popover.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.popover-eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--warm);
+  font-weight: 500;
+  margin-bottom: 6px;
+  font-family: var(--sans);
+}
+
+.popover-text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--bg-elev);
+  font-family: var(--sans);
+}
+
+.diagram-node {
+  cursor: pointer;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.diagram-node.is-fading {
+  opacity: 0.15;
+}
+
+.diagram-node.is-removed {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.diagram-node.is-incoming {
+  opacity: 0;
+}
+
+.diagram-node.is-incoming.is-revealed {
+  opacity: 1;
+}
+
+.diagram-node:hover .node-rect {
+  filter: brightness(0.97);
+}
+
+.node-rect {
+  transition: filter 0.18s ease;
+}
+
+.diagram-edge {
+  transition: opacity 0.4s ease, stroke-dasharray 0.4s ease;
+}
+
+.diagram-edge.is-removed {
+  opacity: 0;
+}
+
+.diagram-edge.is-incoming {
+  opacity: 0;
+}
+
+.diagram-edge.is-incoming.is-revealed {
+  opacity: 1;
+}
+
+.mockup-shell {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24px;
+}
+
+.browser-chrome {
+  background: var(--bg-deep);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.dot-control {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-control.dot-red { background: #E08C8A; }
+.dot-control.dot-amber-c { background: #D9B36B; }
+.dot-control.dot-green-c { background: #94B47A; }
+
+.url-bar {
+  margin-left: 16px;
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 4px 14px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  flex: 1;
+  max-width: 360px;
+  text-align: center;
+}
+
+.portal-app {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 640px;
+  background: var(--bg-elev);
+}
+
+.portal-sidebar {
+  background: var(--bg-deep);
+  border-right: 1px solid var(--rule);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-brand {
+  padding: 0 20px 20px;
+  border-bottom: 1px solid var(--rule-soft);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.sb-mark {
+  width: 30px;
+  height: 30px;
+  background: var(--ink);
+  color: var(--bg-elev);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.sb-name {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 12px;
+  gap: 2px;
+}
+
+.sb-link {
+  padding: 9px 12px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 500;
+}
+
+.sb-link:hover {
+  background: rgba(13, 12, 10, 0.04);
+  color: var(--ink);
+}
+
+.sb-link.is-active {
+  background: var(--ink);
+  color: var(--bg-elev);
+  font-weight: 600;
+}
+
+.sb-icon {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  flex-shrink: 0;
+  position: relative;
+  opacity: 0.65;
+}
+
+.sb-link.is-active .sb-icon {
+  opacity: 1;
+}
+
+.sidebar-foot {
+  padding: 16px 16px 4px;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.sf-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--warm-soft);
+  color: var(--warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.sf-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.sf-role {
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+
+.portal-main {
+  padding: 28px 32px;
+  overflow-y: auto;
+}
+
+.screen-tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+.screen-tab {
+  background: transparent;
+  border: 1px solid var(--rule);
+  padding: 8px 14px;
+  font-size: 12px;
+  font-family: var(--sans);
+  color: var(--ink-mute);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 500;
+}
+
+.screen-tab:hover {
+  color: var(--ink);
+  border-color: var(--ink-mute);
+}
+
+.screen-tab.is-active {
+  background: var(--ink);
+  color: var(--bg-elev);
+  border-color: var(--ink);
+}
+
+.screen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.screen-title {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.screen-sub {
+  font-size: 13px;
+  color: var(--ink-mute);
+  margin-top: 2px;
+}
+
+.btn {
+  background: var(--ink);
+  color: var(--bg-elev);
+  border: none;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-family: var(--sans);
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: -0.005em;
+}
+
+.btn:hover { background: rgba(13, 12, 10, 0.85); }
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+}
+.btn-secondary:hover { background: var(--bg-deep); border-color: var(--ink-faint); }
+
+.btn-accent {
+  background: var(--accent);
+  color: #ffffff;
+}
+.btn-accent:hover { background: var(--accent-hover); }
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.kpi {
+  background: var(--bg-deep);
+  border-radius: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--rule-soft);
+}
+
+.kpi-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.kpi-value {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.kpi-meta {
+  font-size: 11px;
+  color: var(--accent);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.lead-table {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.lt-head, .lt-row {
+  display: grid;
+  grid-template-columns: 2.2fr 1.4fr 1.2fr 1fr 1fr;
+  align-items: center;
+  padding: 12px 18px;
+  gap: 12px;
+}
+
+.lt-head {
+  background: var(--bg-deep);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 500;
+  border-bottom: 1px solid var(--rule);
+}
+
+.lt-row {
+  font-size: 13px;
+  border-bottom: 1px solid var(--rule-soft);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.lt-row:hover { background: var(--bg-deep); }
+.lt-row:last-child { border-bottom: none; }
+
+.lt-name {
+  font-weight: 500;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+}
+
+.lt-sub {
+  font-size: 11px;
+  color: var(--ink-mute);
+  font-weight: 400;
+}
+
+.pill {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.pill-warm { background: var(--node-amber-bg); color: var(--node-amber-text); }
+.pill-cold { background: var(--node-blue-bg); color: var(--node-blue-text); }
+.pill-success { background: var(--node-green-bg); color: var(--node-green-text); }
+.pill-pending { background: var(--node-purple-bg); color: var(--node-purple-text); }
+.pill-doc { background: var(--node-coral-bg); color: var(--node-coral-text); }
+.pill-clio { background: var(--node-teal-bg); color: var(--node-teal-text); }
+
+.lead-detail {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .lead-detail { grid-template-columns: 1fr; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .portal-app { grid-template-columns: 1fr; }
+  .portal-sidebar { display: none; }
+}
+
+.detail-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 22px 24px;
+}
+
+.detail-card + .detail-card {
+  margin-top: 16px;
+}
+
+.dc-title {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.015em;
+}
+
+.dc-sub {
+  font-size: 12px;
+  color: var(--ink-mute);
+  margin-bottom: 16px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-full { grid-column: 1 / -1; }
+
+.field-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+
+.field-value {
+  font-size: 14px;
+  color: var(--ink);
+  padding: 7px 10px;
+  background: var(--bg);
+  border: 1px solid var(--rule-soft);
+  border-radius: 3px;
+  font-family: var(--sans);
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.field-value.editable {
+  background: var(--bg-elev);
+  border-color: var(--rule);
+}
+
+.field-value.flag {
+  background: var(--warm-soft);
+  border-color: var(--warm);
+  color: var(--node-amber-text);
+}
+
+.field-check {
+  font-size: 12px;
+  color: var(--accent);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tick {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.tick::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 7px;
+  border-right: 1.5px solid var(--bg-elev);
+  border-bottom: 1.5px solid var(--bg-elev);
+  transform: rotate(45deg);
+  top: 1px;
+  left: 4px;
+}
+
+.timeline {
+  margin-top: 4px;
+}
+
+.tl-item {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 12px;
+  padding-bottom: 16px;
+  position: relative;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 16px;
+  bottom: 0;
+  width: 1px;
+  background: var(--rule);
+}
+
+.tl-item:last-child::before { display: none; }
+
+.tl-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--bg-elev);
+  margin-top: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.tl-dot.done { background: var(--accent); }
+.tl-dot.active { background: var(--warm); box-shadow: 0 0 0 4px var(--warm-soft); }
+.tl-dot.pending { background: var(--node-gray-stroke); }
+
+.tl-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.tl-time {
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+
+.action-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule-soft);
+  flex-wrap: wrap;
+}
+
+.doc-frame {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 32px 40px;
+  font-family: var(--display);
+  min-height: 360px;
+  position: relative;
+  overflow: hidden;
+}
+
+.doc-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, transparent, var(--bg));
+  pointer-events: none;
+}
+
+.doc-line {
+  height: 6px;
+  background: var(--ink);
+  opacity: 0.18;
+  margin-bottom: 10px;
+  border-radius: 1px;
+}
+
+.doc-line.short { width: 40%; }
+.doc-line.medium { width: 70%; }
+.doc-line.long { width: 100%; }
+
+.doc-line.title {
+  height: 14px;
+  width: 60%;
+  background: var(--ink);
+  opacity: 0.85;
+  margin-bottom: 24px;
+  margin-top: 12px;
+}
+
+.doc-line.heading {
+  height: 9px;
+  width: 30%;
+  background: var(--accent);
+  opacity: 0.7;
+  margin-top: 18px;
+  margin-bottom: 12px;
+}
+
+.doc-merge {
+  display: inline-block;
+  background: var(--warm-soft);
+  border: 1px dashed var(--warm);
+  color: var(--node-amber-text);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: var(--sans);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+
+.engagement-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .engagement-grid { grid-template-columns: 1fr; }
+}
+
+.config-card {
+  background: var(--bg-deep);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 20px 22px;
+  font-size: 13px;
+}
+
+.cfg-title {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: -0.015em;
+}
+
+.cfg-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule-soft);
+  font-size: 13px;
+}
+
+.cfg-row:last-child { border-bottom: none; }
+.cfg-key { color: var(--ink-mute); }
+.cfg-val { color: var(--ink); font-weight: 500; }
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-top: 1px solid var(--rule-soft);
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.toggle-row:first-of-type { margin-top: 4px; }
+
+.toggle {
+  width: 32px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 99px;
+  position: relative;
+  display: inline-block;
+}
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--bg-elev);
+  border-radius: 50%;
+  top: 2px;
+  right: 2px;
+  transition: all 0.2s ease;
+}
+
+.toggle.off { background: var(--node-gray-stroke); }
+.toggle.off::after { right: auto; left: 2px; }
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  background: var(--bg-deep);
+  padding: 36px 32px 56px;
+  margin-top: 80px;
+}
+
+.phase-journey {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0;
+  margin-bottom: 64px;
+  position: relative;
+  align-items: stretch;
+}
+
+.phase-track {
+  position: absolute;
+  top: 32px;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: var(--rule);
+  z-index: 0;
+}
+
+.phase-track::before,
+.phase-track::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--secondary);
+  transform: translateY(-50%);
+}
+
+.phase-track::before { left: -3px; }
+.phase-track::after { right: -3px; background: var(--accent); }
+
+.phase {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  padding: 28px 26px 24px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.phase-1 { border-radius: 6px 0 0 6px; border-right: none; }
+
+.phase-pair {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 0 6px 6px 0;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.phase-pair-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 26px 0;
+  margin-bottom: 16px;
+}
+
+.phase-pair-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+}
+
+.phase-pair-body .phase {
+  border: none;
+  border-radius: 0;
+  padding: 0 26px 24px;
+}
+
+.phase-pair-body .phase-2 {
+  border-right: 1px dashed var(--rule);
+}
+
+.phase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.phase-num {
+  font-family: var(--display);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--secondary);
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+.phase-pair-header .phase-num {
+  color: var(--accent);
+}
+
+.phase-pill {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  padding: 4px 9px;
+  border-radius: 99px;
+}
+
+.phase-pill-fixed {
+  background: var(--secondary-soft);
+  color: var(--secondary);
+}
+
+.phase-pill-scope {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+}
+
+.phase-title {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.15;
+}
+
+.phase-desc {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.phase-includes {
+  margin-bottom: 22px;
+  flex: 1;
+}
+
+.includes-label,
+.output-label,
+.factors-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.includes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.includes-list li {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.55;
+  padding: 6px 0 6px 16px;
+  position: relative;
+  border-bottom: 1px dashed var(--rule-soft);
+}
+
+.includes-list li:last-child { border-bottom: none; }
+
+.includes-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 6px;
+  height: 1px;
+  background: var(--secondary);
+}
+
+.phase-pair .includes-list li::before {
+  background: var(--accent);
+}
+
+.phase-output {
+  background: var(--bg-deep);
+  border-radius: 4px;
+  padding: 12px 14px;
+  border-left: 2px solid var(--secondary);
+}
+
+.phase-pair .phase-output {
+  border-left-color: var(--accent);
+}
+
+.output-value {
+  font-family: var(--display);
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+  display: block;
+}
+
+.fee-section {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 40px 36px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow-soft);
+}
+
+.fee-heading {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.fee-lede {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 64ch;
+}
+
+.fee-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.fee-card {
+  background: var(--bg);
+  border-radius: 4px;
+  padding: 26px 28px;
+  border: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+}
+
+.fee-card-fixed {
+  background: var(--bg);
+  border-color: var(--secondary);
+  border-width: 1px;
+  position: relative;
+}
+
+.fee-card-fixed::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--secondary);
+  border-radius: 4px 0 0 4px;
+}
+
+.fee-card-scope {
+  position: relative;
+}
+
+.fee-card-scope::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--warm);
+  border-radius: 4px 0 0 4px;
+}
+
+.fee-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.fee-tag {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+
+.fee-status {
+  font-family: var(--display);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.fee-card-fixed .fee-status { color: var(--secondary); }
+.fee-card-scope .fee-status { color: var(--accent); }
+
+.fee-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.fee-currency {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink-mute);
+}
+
+.fee-number {
+  font-family: var(--display);
+  font-size: 72px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.fee-amount-scope {
+  margin-bottom: 12px;
+}
+
+.fee-tbd {
+  font-family: var(--display);
+  font-size: 36px;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+.fee-card-name {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+
+.fee-card-detail {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.fee-factors {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px dashed var(--rule);
+}
+
+.factors-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+}
+
+.factors-list li {
+  font-size: 12.5px;
+  color: var(--ink);
+  padding: 3px 0 3px 14px;
+  position: relative;
+}
+
+.factors-list li::before {
+  content: '+';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  color: var(--warm);
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fee-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule-soft);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--rule-soft);
+}
+
+.fee-meta-item {
+  background: var(--bg-deep);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-key {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+
+.meta-val {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.next-step {
+  background: var(--ink);
+  color: var(--bg-elev);
+  border-radius: 6px;
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.next-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.next-text {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--bg-elev);
+  max-width: 60ch;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-line {
+  font-family: var(--display);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.footer-meta {
+  font-size: 13px;
+  color: var(--ink-mute);
+  line-height: 1.7;
+}
+
+.footer-meta span {
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .header-inner { padding: 14px 20px; }
+  .meta-nav { display: none; }
+  .hero { padding: 56px 20px 40px; }
+  .tab-nav { padding: 0 20px; }
+  .tab-btn { padding: 16px 12px; }
+  .tab-label { font-size: 18px; }
+  .tab-desc { display: none; }
+  .content { padding: 32px 20px 60px; }
+  .panel-title { font-size: 28px; }
+  .state-toggle { flex-wrap: wrap; }
+  .diagram-stats { grid-template-columns: 1fr; }
+  .stat { border-right: none; border-bottom: 1px solid var(--rule-soft); }
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .lt-head, .lt-row { grid-template-columns: 1.5fr 1fr 1fr; }
+  .lt-stage, .lt-time { display: none; }
+  .field-grid { grid-template-columns: 1fr; }
+  .phase-journey { grid-template-columns: 1fr; }
+  .phase-1 {
+    border-radius: 6px;
+    border-right: 1px solid var(--rule);
+    margin-bottom: 12px;
+  }
+  .phase-pair {
+    border-radius: 6px;
+  }
+  .phase-pair-body { grid-template-columns: 1fr; }
+  .phase-pair-body .phase-2 {
+    border-right: none;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .phase-track { display: none; }
+  .fee-grid { grid-template-columns: 1fr; }
+  .fee-meta { grid-template-columns: 1fr; }
+  .factors-list { grid-template-columns: 1fr; }
+  .fee-section { padding: 24px 20px; }
+  .next-text { font-size: 18px; }
+}
+
+@media (min-width: 721px) and (max-width: 980px) {
+  .phase-journey { grid-template-columns: 1fr; }
+  .phase-1 {
+    border-radius: 6px;
+    border-right: 1px solid var(--rule);
+    margin-bottom: 12px;
+  }
+  .phase-pair { border-radius: 6px; }
+  .phase-track { display: none; }
+  .fee-grid { grid-template-columns: 1fr; }
+
+</style>
+<script>
+(function(){
+  document.documentElement.classList.add('is-locked-pre');
+})();
+</script>
+<style>
+html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
+  visibility: hidden;
+}
+</style>
+</head>
+<body>
+
+<div class="auth-gate" id="auth-gate" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+  <div class="auth-card">
+    <span class="auth-mark">IX</span>
+    <p class="auth-eyebrow">Proposal access</p>
+    <h2 class="auth-title" id="auth-title">This proposal is private.</h2>
+    <p class="auth-lede">Enter the access password to view the IX Foundry proposal for Fourscore Law.</p>
+    <form class="auth-form" id="auth-form" autocomplete="off">
+      <label class="auth-label" for="auth-input">Password</label>
+      <input class="auth-input" id="auth-input" type="password" autocomplete="off" autofocus>
+      <p class="auth-error" id="auth-error" aria-live="polite"></p>
+      <button class="auth-submit" type="submit">Unlock</button>
+    </form>
+    <p class="auth-meta">Session expires after 2 minutes of inactivity.</p>
+  </div>
+</div>
+
+<div class="auth-shield" id="auth-shield" hidden></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-mark">IX</span>
+      <div class="brand-text">
+        <span class="brand-line">IX Foundry</span>
+        <span class="brand-sub">Proposal for Fourscore Law</span>
+      </div>
+    </div>
+    <nav class="meta-nav">
+      <span class="meta-item">Prepared for Stephanie &amp; Jesse</span>
+      <span class="meta-divider">&middot;</span>
+      <span class="meta-item">Draft v1</span>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">A proposal &middot; Fourscore Law</span>
+    <h1 class="hero-title">An intake portal built <em>exactly</em> for how Fourscore works.</h1>
+    <p class="hero-lede">Today, every new client pulls Stephanie through a Google form, a tracker spreadsheet, ActiveCampaign, Clio, Faster Suite, Xodo Sign, and back again. The proposed portal collapses that scatter into a single, traceable workflow &mdash; capturing intake once, validating it, and pushing clean data into Clio without the copy and paste.</p>
+  </div>
+</section>
+
+<div class="tab-nav-bar">
+<nav class="tab-nav" role="tablist" aria-label="Proposal sections">
+  <button class="tab-btn is-active" data-tab="process" role="tab" aria-selected="true" aria-controls="process-panel">
+    <span class="tab-num">01</span>
+    <span class="tab-label">The process</span>
+    <span class="tab-desc">Today vs. proposed</span>
+  </button>
+  <button class="tab-btn" data-tab="portal" role="tab" aria-selected="false" aria-controls="portal-panel">
+    <span class="tab-num">02</span>
+    <span class="tab-label">The portal</span>
+    <span class="tab-desc">Visual mockup</span>
+  </button>
+  <button class="tab-btn" data-tab="proposal" role="tab" aria-selected="false" aria-controls="proposal-panel">
+    <span class="tab-num">03</span>
+    <span class="tab-label">The proposal</span>
+    <span class="tab-desc">Phases &amp; fees</span>
+  </button>
+</nav>
+</div>
+
+<main class="content">
+
+  <section id="process-panel" class="panel is-active" role="tabpanel">
+    <div class="panel-head">
+      <h2 class="panel-title">The process, today and tomorrow</h2>
+      <p class="panel-lede">Use the toggle to see how the same intake — from first contact to signed engagement letter — looks before and after the portal. Hover any step for detail.</p>
+      <div class="state-toggle" role="group" aria-label="Process view">
+        <button class="state-btn is-active" data-state="current">Current state</button>
+        <button class="state-btn" data-state="proposed">Proposed state</button>
+        <button class="state-btn animate-btn" data-state="animate">
+          <span class="play-dot"></span>
+          Animate transition
+        </button>
+      </div>
+    </div>
+
+    <div class="diagram-frame">
+      <div class="diagram-legend">
+        <span class="legend-item"><span class="dot dot-gray"></span>Lead / outcome</span>
+        <span class="legend-item"><span class="dot dot-blue"></span>Client touchpoint</span>
+        <span class="legend-item"><span class="dot dot-amber"></span>Manual / waiting</span>
+        <span class="legend-item"><span class="dot dot-purple"></span>Attorney decision</span>
+        <span class="legend-item"><span class="dot dot-teal"></span>Clio data work</span>
+        <span class="legend-item"><span class="dot dot-coral"></span>Document &amp; signature</span>
+        <span class="legend-item"><span class="dot dot-green"></span>Automated by portal</span>
+      </div>
+
+      <div class="diagram-stage" id="diagram-stage">
+        <div id="diagram-mount"></div>
+      </div>
+
+      <div class="diagram-stats">
+        <div class="stat">
+          <span class="stat-label">Manual touchpoints</span>
+          <span class="stat-value" id="stat-manual">12</span>
+          <span class="stat-delta" id="stat-manual-delta"></span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Systems Stephanie touches</span>
+          <span class="stat-value" id="stat-systems">7</span>
+          <span class="stat-delta" id="stat-systems-delta"></span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Duplicated data entries</span>
+          <span class="stat-value" id="stat-duplicate">4</span>
+          <span class="stat-delta" id="stat-duplicate-delta"></span>
+        </div>
+      </div>
+    </div>
+
+    <p class="diagram-hint">Hover any step in the diagram for detail on what happens there today and how the portal changes it.</p>
+
+    <div class="step-popover" id="step-popover" aria-hidden="true">
+      <p class="popover-eyebrow" id="popover-eyebrow"></p>
+      <p class="popover-text" id="popover-text"></p>
+    </div>
+  </section>
+
+  <section id="portal-panel" class="panel" role="tabpanel" hidden>
+    <div class="panel-head">
+      <h2 class="panel-title">The portal, sketched</h2>
+      <p class="panel-lede">A first cut at the screens Stephanie would live in. The dashboard is home base; clicking a lead opens a review screen where intake data is checked, validated, and pushed to Clio in one motion.</p>
+    </div>
+
+    <div class="mockup-shell">
+      <div class="browser-chrome">
+        <span class="dot-control dot-red"></span>
+        <span class="dot-control dot-amber-c"></span>
+        <span class="dot-control dot-green-c"></span>
+        <span class="url-bar">portal.fourscorelaw.com</span>
+      </div>
+
+      <div class="portal-app" id="portal-app">
+
+        <aside class="portal-sidebar">
+          <div class="sidebar-brand">
+            <span class="sb-mark">FS</span>
+            <span class="sb-name">Fourscore</span>
+          </div>
+          <nav class="sidebar-nav">
+            <a class="sb-link is-active" data-screen="dashboard">
+              <span class="sb-icon"></span>
+              Dashboard
+            </a>
+            <a class="sb-link" data-screen="lead">
+              <span class="sb-icon"></span>
+              Lead detail
+            </a>
+            <a class="sb-link" data-screen="review">
+              <span class="sb-icon"></span>
+              Intake review
+            </a>
+            <a class="sb-link" data-screen="engagement">
+              <span class="sb-icon"></span>
+              Engagement letter
+            </a>
+          </nav>
+          <div class="sidebar-foot">
+            <div class="sf-user">
+              <span class="avatar">SL</span>
+              <div>
+                <div class="sf-name">Stephanie</div>
+                <div class="sf-role">Administrator</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <div class="portal-main">
+          <div id="screen-mount"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-tabs">
+      <button class="screen-tab is-active" data-screen="dashboard">Dashboard</button>
+      <button class="screen-tab" data-screen="lead">Lead detail</button>
+      <button class="screen-tab" data-screen="review">Intake review</button>
+      <button class="screen-tab" data-screen="engagement">Engagement letter</button>
+    </div>
+  </section>
+
+  <section id="proposal-panel" class="panel" role="tabpanel" hidden>
+    <div class="panel-head">
+      <h2 class="panel-title">How we&rsquo;d build it, together</h2>
+      <p class="panel-lede">Three phases, each with a clear handoff. Discovery is a fixed fee; the build and acceptance phases are priced as a single engagement once scope is settled.</p>
+    </div>
+
+    <div class="phase-journey">
+      <div class="phase-track"></div>
+
+      <div class="phase phase-1">
+        <div class="phase-header">
+          <span class="phase-num">01</span>
+          <span class="phase-pill phase-pill-fixed">Fixed fee</span>
+        </div>
+        <h3 class="phase-title">Discovery &amp; design</h3>
+        <p class="phase-desc">We sit with Stephanie and the team, walk through the process as it stands today, and come back with a re-architected workflow shaped around the portal.</p>
+        <div class="phase-includes">
+          <span class="includes-label">What we do</span>
+          <ul class="includes-list">
+            <li>Interviews with Stephanie, Jesse, and the attorneys</li>
+            <li>Detailed mapping of intake, Clio, Faster Suite, and Xodo Sign touchpoints</li>
+            <li>Re-architected process design</li>
+            <li>Proposal of AI agents where they earn their place</li>
+            <li>Roadmap for future improvements beyond Phase 1</li>
+          </ul>
+        </div>
+        <div class="phase-output">
+          <span class="output-label">You receive</span>
+          <span class="output-value">A workflow design, agent recommendations, and a future roadmap</span>
+        </div>
+      </div>
+
+      <div class="phase-pair">
+        <div class="phase-pair-header">
+          <span class="phase-num">02 &mdash; 03</span>
+          <span class="phase-pill phase-pill-scope">Scope-based fee &mdash; combined</span>
+        </div>
+        <div class="phase-pair-body">
+          <div class="phase phase-2">
+            <h3 class="phase-title">Build</h3>
+            <p class="phase-desc">We build the portal iteratively. Stephanie and the team see progress along the way and steer us before anything is set in concrete.</p>
+            <div class="phase-includes">
+              <span class="includes-label">What we do</span>
+              <ul class="includes-list">
+                <li>Iterative implementation against the agreed design</li>
+                <li>Regular check-ins with Stephanie and the team</li>
+                <li>Course corrections as the team sees the build take shape</li>
+                <li>Integrations with Clio, Faster Suite, Xodo Sign, ActiveCampaign, and SoS lookups</li>
+              </ul>
+            </div>
+            <div class="phase-output">
+              <span class="output-label">You receive</span>
+              <span class="output-value">A working portal, refined through your feedback at every step</span>
+            </div>
+          </div>
+
+          <div class="phase phase-3">
+            <h3 class="phase-title">Acceptance testing &amp; acceptance</h3>
+            <p class="phase-desc">Stephanie, Fourscore, and our team test the platform end-to-end against the specification agreed in Phase 1.</p>
+            <div class="phase-includes">
+              <span class="includes-label">What we do</span>
+              <ul class="includes-list">
+                <li>Joint UAT with real intake scenarios</li>
+                <li>Defect resolution against agreed criteria</li>
+                <li>Training and handover to Stephanie</li>
+                <li>Sign-off and cutover from current process</li>
+              </ul>
+            </div>
+            <div class="phase-output">
+              <span class="output-label">You receive</span>
+              <span class="output-value">A signed-off, production-ready platform Stephanie owns and uses</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fee-section">
+      <h3 class="fee-heading">Fee structure</h3>
+      <p class="fee-lede">Discovery is fixed so you know exactly what the first phase costs. Build and acceptance are priced together once we&rsquo;ve agreed scope &mdash; no surprises, no padding.</p>
+
+      <div class="fee-grid">
+        <div class="fee-card fee-card-fixed">
+          <div class="fee-card-head">
+            <span class="fee-tag">Phase 01</span>
+            <span class="fee-status">Fixed</span>
+          </div>
+          <div class="fee-amount">
+            <span class="fee-currency">$</span>
+            <span class="fee-number">5,000</span>
+          </div>
+          <p class="fee-card-name">Discovery &amp; design</p>
+          <p class="fee-card-detail">A fixed fee covering interviews, process re-architecture, AI agent recommendations, and the future roadmap. Paid in full on engagement.</p>
+        </div>
+
+        <div class="fee-card fee-card-scope">
+          <div class="fee-card-head">
+            <span class="fee-tag">Phases 02 &amp; 03</span>
+            <span class="fee-status">Scope-based</span>
+          </div>
+          <div class="fee-amount fee-amount-scope">
+            <span class="fee-tbd">To be agreed</span>
+          </div>
+          <p class="fee-card-name">Build &amp; acceptance</p>
+          <p class="fee-card-detail">A single combined fee for the build and acceptance phases, agreed at the end of Phase 1 once we&rsquo;ve settled which features make it into the first release.</p>
+          <div class="fee-factors">
+            <span class="factors-label">Driven by</span>
+            <ul class="factors-list">
+              <li>Number of integrations in scope</li>
+              <li>Depth of Clio custom-field automation</li>
+              <li>AI agents included in v1 vs. roadmap</li>
+              <li>Edge cases handled at launch</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="fee-meta">
+        <div class="fee-meta-item">
+          <span class="meta-key">Engagement model</span>
+          <span class="meta-val">Fixed-fee per phase, with scope locked at the gate</span>
+        </div>
+        <div class="fee-meta-item">
+          <span class="meta-key">Decision point</span>
+          <span class="meta-val">After Phase 01, before Phase 02 begins</span>
+        </div>
+        <div class="fee-meta-item">
+          <span class="meta-key">Phase 02 &amp; 03 invoicing</span>
+          <span class="meta-val">Milestone-based, agreed in writing</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-step">
+      <p class="next-eyebrow">Where to from here</p>
+      <p class="next-text">Reply with a yes on the discovery phase and we&rsquo;ll set up the first set of interviews. Everything beyond that gets shaped by what we learn together in Phase 1.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-line">A working draft prepared for Fourscore Law.</p>
+    <p class="footer-meta">Replaces manual coordination across <span>Google Forms</span>, <span>ActiveCampaign</span>, <span>Clio Manage</span>, <span>Faster Suite</span>, <span>Xodo Sign</span>, and <span>spreadsheets</span> with one workflow.</p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  const PASSWORD_HASH = '0acbba99bb096f0d6a9f1d207450502f321edd994e4822f9c1c6b4884347aec2';
+  const SESSION_MS = 2 * 60 * 1000;
+
+  let idleTimer = null;
+  let unlocked = false;
+
+  async function sha256(text) {
+    const buf = new TextEncoder().encode(text);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  function lock() {
+    unlocked = false;
+    document.documentElement.classList.add('is-locked-pre');
+    document.body.classList.add('is-locked');
+    const gate = document.getElementById('auth-gate');
+    const shield = document.getElementById('auth-shield');
+    const input = document.getElementById('auth-input');
+    const error = document.getElementById('auth-error');
+    if (gate) gate.removeAttribute('hidden');
+    if (shield) shield.removeAttribute('hidden');
+    if (input) {
+      input.value = '';
+      input.classList.remove('is-error');
+      setTimeout(() => input.focus(), 80);
+    }
+    if (error) error.textContent = '';
+    clearTimer();
+  }
+
+  function unlock() {
+    unlocked = true;
+    document.documentElement.classList.remove('is-locked-pre');
+    document.body.classList.remove('is-locked');
+    const gate = document.getElementById('auth-gate');
+    const shield = document.getElementById('auth-shield');
+    if (gate) gate.setAttribute('hidden', '');
+    if (shield) shield.setAttribute('hidden', '');
+    resetTimer();
+  }
+
+  function resetTimer() {
+    if (!unlocked) return;
+    clearTimer();
+    idleTimer = setTimeout(lock, SESSION_MS);
+  }
+
+  function clearTimer() {
+    if (idleTimer) {
+      clearTimeout(idleTimer);
+      idleTimer = null;
+    }
+  }
+
+  function onActivity() {
+    if (unlocked) resetTimer();
+  }
+
+  async function handleSubmit(evt) {
+    evt.preventDefault();
+    const input = document.getElementById('auth-input');
+    const error = document.getElementById('auth-error');
+    if (!input) return;
+
+    const attempt = input.value;
+    if (!attempt) {
+      error.textContent = 'Please enter the access password.';
+      input.classList.add('is-error');
+      setTimeout(() => input.classList.remove('is-error'), 400);
+      return;
+    }
+
+    try {
+      const hash = await sha256(attempt);
+      if (hash === PASSWORD_HASH) {
+        error.textContent = '';
+        unlock();
+      } else {
+        error.textContent = 'That password did not match. Please try again.';
+        input.classList.add('is-error');
+        input.select();
+        setTimeout(() => input.classList.remove('is-error'), 400);
+      }
+    } catch (err) {
+      error.textContent = 'Could not verify password. Please reload the page.';
+    }
+  }
+
+  function init() {
+    document.body.classList.add('is-locked');
+
+    const form = document.getElementById('auth-form');
+    if (form) form.addEventListener('submit', handleSubmit);
+
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
+      document.addEventListener(evt, onActivity, { passive: true });
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && unlocked) resetTimer();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+</script>
+<script>
+(function() {
+  'use strict';
+
+  const W = 880;
+  const H = 1180;
+
+  const COLORS = {
+    gray: { fill: '#ECE7DD', stroke: '#B4AE9F', text: '#2C2C2A', sub: '#5F5E5A' },
+    blue: { fill: '#E0EBF2', stroke: '#6A93AB', text: '#1F3D4D', sub: '#406478' },
+    amber: { fill: '#F2E1CE', stroke: '#B8743A', text: '#5C3A1A', sub: '#86552A' },
+    purple: { fill: '#E2DEEA', stroke: '#7E73A6', text: '#2E2654', sub: '#534A7B' },
+    teal: { fill: '#D7E4DF', stroke: '#4D8278', text: '#143B36', sub: '#2D5C53' },
+    coral: { fill: '#ECDDD2', stroke: '#A86A4B', text: '#4A2614', sub: '#74432A' },
+    green: { fill: '#DEE7CD', stroke: '#6B8B4A', text: '#2A3D14', sub: '#4D6A2E' }
+  };
+
+  const CURRENT_NODES = [
+    { id: 'lead', label: 'Lead arrives', sub: '', color: 'gray', x: 340, y: 40, w: 200, h: 50, type: 'start',
+      detail: { now: 'A new lead surfaces, either cold (website form) or warm (referral via Jesse).', after: 'Same — leads still arrive cold or warm.' } },
+    { id: 'cold', label: 'Pre-consultation form', sub: 'Website Google form', color: 'blue', x: 80, y: 130, w: 240, h: 60,
+      detail: { now: 'Cold leads complete a Google Form on the website. Submission lands in inboxes.', after: 'Replaced by a portal-hosted form. Submissions land directly in the lead queue with no inbox routing.' } },
+    { id: 'warm', label: 'Warm referral', sub: 'Email or intro from Jesse', color: 'blue', x: 560, y: 130, w: 240, h: 60,
+      detail: { now: 'Jesse forwards the introduction; Stephanie reads the email and creates a record manually.', after: 'Jesse forwards into the portal inbox; the lead is auto-created and queued for triage.' } },
+    { id: 'paywall', label: 'Send paywall link', sub: 'Filter serious inquiries', color: 'amber', x: 80, y: 230, w: 240, h: 60,
+      detail: { now: 'Stephanie composes an email with the consult-fee link. She tracks payment manually.', after: 'Portal sends the paywall automatically when a cold lead is qualified; payment status is tracked in the lead record.' } },
+    { id: 'introcall', label: 'Intro call with attorney', sub: 'Stephanie schedules', color: 'purple', x: 320, y: 320, w: 240, h: 60,
+      detail: { now: 'Stephanie coordinates the call. After the call, the attorney emails her with form-type guidance.', after: 'Stephanie schedules from the lead record. Attorney sets the form type directly in the portal during or after the call.' } },
+    { id: 'formchoice', label: 'Attorney indicates form type', sub: 'LLC / Corp, Existing, or Individual', color: 'purple', x: 240, y: 420, w: 400, h: 60,
+      detail: { now: 'Attorney emails Stephanie indicating which of three intake forms to send.', after: 'Attorney picks the form type from a dropdown; portal sends the right intake automatically.' } },
+    { id: 'sendintake', label: 'Send intake form', sub: 'Direct email + ActiveCampaign', color: 'blue', x: 240, y: 520, w: 400, h: 60,
+      detail: { now: 'Stephanie emails the link directly AND tags the contact in ActiveCampaign so the workflow fires.', after: 'Portal sends one branded link. ActiveCampaign tagging happens via API in the background.' } },
+    { id: 'leadtracker', label: 'Lead tracker', sub: 'Manual update', color: 'gray', x: 30, y: 520, w: 170, h: 60,
+      detail: { now: 'Stephanie types the lead and stage into a spreadsheet that feeds a marketing scorecard.', after: 'Removed. The portal IS the source of truth; the marketing scorecard reads from the same data.' } },
+    { id: 'activecamp', label: 'ActiveCampaign', sub: 'Tag contact', color: 'gray', x: 680, y: 520, w: 170, h: 60,
+      detail: { now: 'Stephanie adds the contact and applies a tag (Individual / LLC-Corp / Existing) by hand.', after: 'API-driven. Tags applied automatically when the form type is set in the portal.' } },
+    { id: 'submit', label: 'Client submits intake', sub: '7-day manual reminder if not', color: 'amber', x: 240, y: 620, w: 400, h: 60,
+      detail: { now: 'Stephanie watches her inbox; if nothing comes back in a week she sends a manual reminder.', after: 'Portal tracks open and submission status. Reminders fire automatically; Stephanie only steps in for exceptions.' } },
+    { id: 'validate', label: 'Validate legal name', sub: 'NC or DE Secretary of State', color: 'amber', x: 240, y: 720, w: 400, h: 60,
+      detail: { now: 'For existing companies, Stephanie opens the relevant Secretary of State website and searches for the legal name to confirm.', after: 'Portal performs the lookup against NC and DE on submit and surfaces matches. Stephanie confirms or overrides.' } },
+    { id: 'cliocontact', label: 'Create contact + company in Clio', sub: 'Manual copy/paste, custom fields', color: 'teal', x: 200, y: 820, w: 480, h: 60,
+      detail: { now: 'Stephanie creates the personal contact, company record, and signing-authority link by copy/pasting from the Google Form into Clio.', after: 'One click pushes validated data into Clio via the API. Stephanie confirms before the push.' } },
+    { id: 'gcrmatter', label: 'Create GCR matter', sub: 'Originating attorney + custom fields', color: 'teal', x: 200, y: 910, w: 480, h: 60,
+      detail: { now: 'New matter from template, originating attorney set, custom fields populated by hand.', after: 'Matter is generated by the portal using the same template; attorney and fields prefilled from the lead record.' } },
+    { id: 'genletter', label: 'Generate engagement letter', sub: 'Clio template + Faster Suite refresh', color: 'teal', x: 200, y: 1000, w: 480, h: 60,
+      detail: { now: 'Run the template in Clio, refresh Faster Suite, navigate to the client folder, open the doc.', after: 'Portal triggers template generation and lands the document in Faster Suite automatically.' } },
+    { id: 'reviewsend', label: 'Review, edit, send for signature', sub: 'Xodo Sign + attorney CC', color: 'coral', x: 200, y: 1090, w: 480, h: 60,
+      detail: { now: 'Stephanie tidies formatting, drops the doc into Xodo Sign, and sends to the client (CC the responsible attorney).', after: 'Portal opens the prepared envelope in Xodo Sign with attorney and client prefilled. Stephanie reviews and sends.' } },
+    { id: 'sign', label: 'Client signs engagement letter', sub: '7-day follow-up if pending', color: 'amber', x: 240, y: 1190, w: 400, h: 60,
+      detail: { now: 'Wait for the signed PDF. Manual follow-up after a week.', after: 'Portal tracks signature status via Xodo Sign webhook. Reminders are automatic.' } },
+    { id: 'onboard', label: 'Client onboarded', sub: 'Update trackers, tag client', color: 'green', x: 320, y: 1290, w: 240, h: 60, type: 'end',
+      detail: { now: 'Stephanie tags the contact as a client in ActiveCampaign and updates the ACH tracker spreadsheet.', after: 'Portal flips status to onboarded; ActiveCampaign tag and ACH tracker entry happen automatically.' } },
+    { id: 'achtrk', label: 'ACH tracker', sub: 'Add date, special rates', color: 'gray', x: 30, y: 1290, w: 170, h: 60,
+      detail: { now: 'Stephanie types the engagement-letter date, company name, and any special rates (CA, veteran, pre-consult credit) into a spreadsheet.', after: 'Removed. Portal stores rate flags on the matter record; billing reads them directly.' } },
+    { id: 'fastersuite', label: 'Faster Suite', sub: 'Drop signed PDF', color: 'gray', x: 680, y: 1290, w: 170, h: 60,
+      detail: { now: 'Stephanie drags the signed PDF from her inbox into the right client folder in Faster Suite.', after: 'Signed document lands in Faster Suite automatically via the Xodo Sign webhook.' } }
+  ];
+
+  const CURRENT_EDGES = [
+    { from: 'lead', to: 'cold', label: 'cold' },
+    { from: 'lead', to: 'warm', label: 'warm' },
+    { from: 'cold', to: 'paywall' },
+    { from: 'paywall', to: 'introcall', curve: 'right', label: 'if paid' },
+    { from: 'warm', to: 'introcall', curve: 'left' },
+    { from: 'introcall', to: 'formchoice' },
+    { from: 'formchoice', to: 'sendintake' },
+    { from: 'sendintake', to: 'leadtracker', dashed: true },
+    { from: 'sendintake', to: 'activecamp', dashed: true },
+    { from: 'sendintake', to: 'submit' },
+    { from: 'submit', to: 'validate' },
+    { from: 'validate', to: 'cliocontact' },
+    { from: 'cliocontact', to: 'gcrmatter' },
+    { from: 'gcrmatter', to: 'genletter' },
+    { from: 'genletter', to: 'reviewsend' },
+    { from: 'reviewsend', to: 'sign' },
+    { from: 'sign', to: 'onboard' },
+    { from: 'onboard', to: 'achtrk', dashed: true },
+    { from: 'onboard', to: 'fastersuite', dashed: true }
+  ];
+
+  const PROPOSED_NODES = [
+    { id: 'lead', label: 'Lead arrives', sub: 'Cold or warm, into portal', color: 'gray', x: 340, y: 40, w: 200, h: 50, type: 'start',
+      detail: { after: 'All leads — website, referrals, direct — flow into a single portal inbox.' } },
+    { id: 'triage', label: 'Auto-triage and qualify', sub: 'Paywall fires for cold leads', color: 'green', x: 240, y: 130, w: 400, h: 60,
+      detail: { after: 'Cold leads automatically receive the paywall link. Warm leads route directly to attorney triage. No manual sorting.' } },
+    { id: 'introcall', label: 'Intro call', sub: 'Attorney sets form type in portal', color: 'purple', x: 240, y: 230, w: 400, h: 60,
+      detail: { after: 'Attorney conducts the intro call and sets the intake form type from a dropdown. No email handoff to Stephanie.' } },
+    { id: 'autoIntake', label: 'Portal sends right intake form', sub: 'ActiveCampaign tag fires automatically', color: 'green', x: 240, y: 330, w: 400, h: 60,
+      detail: { after: 'The portal serves the correct intake variant. Reminders, tracker updates, and CRM tags all happen via API.' } },
+    { id: 'submit', label: 'Client submits + portal validates', sub: 'Legal name checked vs SoS', color: 'green', x: 240, y: 430, w: 400, h: 60,
+      detail: { after: 'On submission, the portal looks up the legal name in NC and DE Secretary of State databases and surfaces matches.' } },
+    { id: 'review', label: 'Stephanie reviews', sub: 'One screen, all fields', color: 'amber', x: 240, y: 530, w: 400, h: 60,
+      detail: { after: 'Stephanie sees the validated intake on a single review screen. She corrects typos, confirms legal name, marks edge cases.' } },
+    { id: 'pushClio', label: 'Push to Clio', sub: 'Contact, company, matter, custom fields', color: 'green', x: 240, y: 630, w: 400, h: 60,
+      detail: { after: 'One click creates the Personal contact, Company contact, signing-authority link, and the GCR matter with all custom fields populated.' } },
+    { id: 'genSend', label: 'Generate + send engagement letter', sub: 'Faster Suite + Xodo Sign in one motion', color: 'green', x: 240, y: 730, w: 400, h: 60,
+      detail: { after: 'Template generation, Faster Suite filing, and Xodo Sign envelope creation happen as a single action. Stephanie reviews before sending.' } },
+    { id: 'sign', label: 'Client signs', sub: 'Status tracked automatically', color: 'amber', x: 240, y: 830, w: 400, h: 60,
+      detail: { after: 'Xodo Sign webhook updates the lead record. Reminders fire automatically based on configurable cadence.' } },
+    { id: 'onboard', label: 'Client onboarded', sub: 'All trackers updated automatically', color: 'green', x: 320, y: 930, w: 240, h: 60, type: 'end',
+      detail: { after: 'Portal flips status, applies the client tag, updates the marketing scorecard, and posts to the ACH tracker. Stephanie\'s involvement: zero.' } }
+  ];
+
+  const PROPOSED_EDGES = [
+    { from: 'lead', to: 'triage' },
+    { from: 'triage', to: 'introcall' },
+    { from: 'introcall', to: 'autoIntake' },
+    { from: 'autoIntake', to: 'submit' },
+    { from: 'submit', to: 'review' },
+    { from: 'review', to: 'pushClio' },
+    { from: 'pushClio', to: 'genSend' },
+    { from: 'genSend', to: 'sign' },
+    { from: 'sign', to: 'onboard' }
+  ];
+
+  const CURRENT_STATS = { manual: 12, systems: 7, duplicate: 4 };
+  const PROPOSED_STATS = { manual: 3, systems: 1, duplicate: 0 };
+
+  function el(tag, attrs, children) {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    if (attrs) {
+      for (const k in attrs) {
+        if (attrs[k] !== null && attrs[k] !== undefined) {
+          node.setAttribute(k, attrs[k]);
+        }
+      }
+    }
+    if (children) {
+      for (const c of children) {
+        if (c) node.appendChild(c);
+      }
+    }
+    return node;
+  }
+
+  function getNodeCenter(n) {
+    return { x: n.x + n.w / 2, y: n.y + n.h / 2 };
+  }
+
+  function edgePath(fromNode, toNode, curve) {
+    const fromCenter = getNodeCenter(fromNode);
+    const toCenter = getNodeCenter(toNode);
+    if (curve === 'right') {
+      const fx = fromCenter.x;
+      const fy = fromNode.y + fromNode.h;
+      const tx = toCenter.x;
+      const ty = toNode.y;
+      const midY = (fy + ty) / 2;
+      return `M ${fx} ${fy} L ${fx} ${midY} L ${tx} ${midY} L ${tx} ${ty}`;
+    }
+    if (curve === 'left') {
+      const fx = fromCenter.x;
+      const fy = fromNode.y + fromNode.h;
+      const tx = toCenter.x;
+      const ty = toNode.y;
+      const midY = (fy + ty) / 2;
+      return `M ${fx} ${fy} L ${fx} ${midY} L ${tx} ${midY} L ${tx} ${ty}`;
+    }
+    if (Math.abs(fromCenter.x - toCenter.x) > 50 && Math.abs(fromCenter.y - toCenter.y) < 30) {
+      const fy = fromCenter.y;
+      const fx = fromCenter.x < toCenter.x ? fromNode.x + fromNode.w : fromNode.x;
+      const tx = fromCenter.x < toCenter.x ? toNode.x : toNode.x + toNode.w;
+      return `M ${fx} ${fy} L ${tx} ${fy}`;
+    }
+    const fx = fromCenter.x;
+    const fy = fromNode.y + fromNode.h;
+    const tx = toCenter.x;
+    const ty = toNode.y;
+    return `M ${fx} ${fy} L ${tx} ${ty}`;
+  }
+
+  function buildSVG(nodes, edges) {
+    const svg = el('svg', {
+      viewBox: `0 0 ${W} ${H}`,
+      xmlns: 'http://www.w3.org/2000/svg',
+      role: 'img'
+    });
+
+    const defs = el('defs');
+    defs.innerHTML = `
+      <marker id="arrow-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M2 1 L 8 5 L 2 9" fill="none" stroke="#8A8E84" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+      <marker id="arrow-head-dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M2 1 L 8 5 L 2 9" fill="none" stroke="#B4AE9F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    `;
+    svg.appendChild(defs);
+
+    const nodeMap = {};
+    nodes.forEach(n => nodeMap[n.id] = n);
+
+    const edgeGroup = el('g', { 'data-layer': 'edges' });
+    edges.forEach((e, i) => {
+      const fromN = nodeMap[e.from];
+      const toN = nodeMap[e.to];
+      if (!fromN || !toN) return;
+
+      const d = edgePath(fromN, toN, e.curve);
+      const path = el('path', {
+        d,
+        fill: 'none',
+        stroke: e.dashed ? '#B4AE9F' : '#8A8E84',
+        'stroke-width': e.dashed ? 1.2 : 1.6,
+        'stroke-dasharray': e.dashed ? '4 3' : null,
+        'marker-end': e.dashed ? 'url(#arrow-head-dashed)' : 'url(#arrow-head)',
+        class: 'diagram-edge',
+        'data-edge': `${e.from}-${e.to}`,
+        'data-index': i
+      });
+      edgeGroup.appendChild(path);
+
+      if (e.label) {
+        const fc = getNodeCenter(fromN);
+        const tc = getNodeCenter(toN);
+        const lx = (fc.x + tc.x) / 2 + 18;
+        const ly = (fromN.y + fromN.h + toN.y) / 2 + 4;
+        const text = el('text', {
+          x: lx,
+          y: ly,
+          'font-family': 'Fraunces, serif',
+          'font-style': 'italic',
+          'font-size': 12,
+          fill: '#8A8E84',
+          'text-anchor': 'start',
+          class: 'diagram-edge'
+        });
+        text.textContent = e.label;
+        edgeGroup.appendChild(text);
+      }
+    });
+    svg.appendChild(edgeGroup);
+
+    const nodeGroup = el('g', { 'data-layer': 'nodes' });
+    nodes.forEach((n, i) => {
+      const c = COLORS[n.color];
+      const isStart = n.type === 'start' || n.type === 'end';
+      const g = el('g', {
+        class: 'diagram-node',
+        'data-node': n.id,
+        'data-index': i,
+        transform: `translate(${n.x}, ${n.y})`
+      });
+
+      const rect = el('rect', {
+        x: 0, y: 0,
+        width: n.w, height: n.h,
+        rx: isStart ? n.h / 2 : 5,
+        fill: c.fill,
+        stroke: c.stroke,
+        'stroke-width': 1,
+        class: 'node-rect'
+      });
+      g.appendChild(rect);
+
+      const titleY = n.sub ? n.h / 2 - 6 : n.h / 2;
+      const title = el('text', {
+        x: n.w / 2,
+        y: titleY,
+        'text-anchor': 'middle',
+        'dominant-baseline': 'central',
+        'font-family': 'Inter, sans-serif',
+        'font-size': 13,
+        'font-weight': 500,
+        fill: c.text
+      });
+      title.textContent = n.label;
+      g.appendChild(title);
+
+      if (n.sub) {
+        const sub = el('text', {
+          x: n.w / 2,
+          y: n.h / 2 + 11,
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central',
+          'font-family': 'Inter, sans-serif',
+          'font-size': 11,
+          fill: c.sub
+        });
+        sub.textContent = n.sub;
+        g.appendChild(sub);
+      }
+
+      g.addEventListener('mouseenter', (evt) => onNodeHover(n, evt));
+      g.addEventListener('mousemove', onNodeMove);
+      g.addEventListener('mouseleave', onNodeLeave);
+      nodeGroup.appendChild(g);
+    });
+    svg.appendChild(nodeGroup);
+
+    return svg;
+  }
+
+  let currentState = 'current';
+  let isAnimating = false;
+  const popover = () => document.getElementById('step-popover');
+
+  function positionPopover(evt) {
+    const pop = popover();
+    if (!pop || !pop.classList.contains('is-visible')) return;
+
+    const offset = 14;
+    const rect = pop.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    let x = evt.clientX + offset;
+    let y = evt.clientY + offset;
+
+    if (x + rect.width > vw - 12) {
+      x = evt.clientX - rect.width - offset;
+    }
+    if (y + rect.height > vh - 12) {
+      y = evt.clientY - rect.height - offset;
+    }
+    if (x < 12) x = 12;
+    if (y < 12) y = 12;
+
+    pop.style.left = x + 'px';
+    pop.style.top = y + 'px';
+  }
+
+  function onNodeHover(node, evt) {
+    const pop = popover();
+    if (!pop) return;
+    const detail = node.detail || {};
+    let text;
+    if (currentState === 'current') {
+      text = detail.now || detail.after || node.label;
+    } else {
+      text = detail.after || detail.now || node.label;
+    }
+    document.getElementById('popover-eyebrow').textContent = node.label;
+    document.getElementById('popover-text').textContent = text;
+    pop.classList.add('is-visible');
+    pop.setAttribute('aria-hidden', 'false');
+    positionPopover(evt);
+  }
+
+  function onNodeLeave() {
+    const pop = popover();
+    if (!pop) return;
+    pop.classList.remove('is-visible');
+    pop.setAttribute('aria-hidden', 'true');
+  }
+
+  function onNodeMove(evt) {
+    positionPopover(evt);
+  }
+
+  function setStats(stats, animate) {
+    const el = (id) => document.getElementById(id);
+    el('stat-manual').textContent = stats.manual;
+    el('stat-systems').textContent = stats.systems;
+    el('stat-duplicate').textContent = stats.duplicate;
+
+    if (animate) {
+      const md = CURRENT_STATS.manual - PROPOSED_STATS.manual;
+      const sd = CURRENT_STATS.systems - PROPOSED_STATS.systems;
+      const dd = CURRENT_STATS.duplicate - PROPOSED_STATS.duplicate;
+      el('stat-manual-delta').textContent = stats === PROPOSED_STATS ? `−${md} steps` : '';
+      el('stat-systems-delta').textContent = stats === PROPOSED_STATS ? `−${sd} systems` : '';
+      el('stat-duplicate-delta').textContent = stats === PROPOSED_STATS ? `−${dd} duplications` : '';
+      el('stat-manual').style.color = stats === PROPOSED_STATS ? '#1B4D45' : '';
+      el('stat-systems').style.color = stats === PROPOSED_STATS ? '#1B4D45' : '';
+      el('stat-duplicate').style.color = stats === PROPOSED_STATS ? '#1B4D45' : '';
+    }
+  }
+
+  function renderState(state) {
+    const mount = document.getElementById('diagram-mount');
+    if (!mount) return;
+    mount.innerHTML = '';
+
+    if (state === 'current') {
+      const svg = buildSVG(CURRENT_NODES, CURRENT_EDGES);
+      mount.appendChild(svg);
+      setStats(CURRENT_STATS, false);
+    } else if (state === 'proposed') {
+      const svg = buildSVG(PROPOSED_NODES, PROPOSED_EDGES);
+      mount.appendChild(svg);
+      setStats(PROPOSED_STATS, true);
+    }
+    currentState = state;
+  }
+
+  async function animateTransition() {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    const mount = document.getElementById('diagram-mount');
+    if (!mount) { isAnimating = false; return; }
+
+    if (currentState !== 'current') {
+      renderState('current');
+      await sleep(300);
+    }
+
+    const svg = mount.querySelector('svg');
+    if (!svg) { isAnimating = false; return; }
+
+    const nodesToFade = [
+      'leadtracker', 'activecamp', 'achtrk', 'fastersuite',
+      'paywall', 'cold', 'warm', 'formchoice', 'sendintake',
+      'validate', 'cliocontact', 'gcrmatter', 'genletter', 'reviewsend',
+      'submit'
+    ];
+
+    let stepDelay = 0;
+    nodesToFade.forEach((id, i) => {
+      const n = svg.querySelector(`[data-node="${id}"]`);
+      if (n) {
+        setTimeout(() => n.classList.add('is-fading'), stepDelay + i * 60);
+      }
+    });
+
+    await sleep(stepDelay + nodesToFade.length * 60 + 400);
+
+    svg.querySelectorAll('.diagram-edge').forEach(e => {
+      e.classList.add('is-removed');
+    });
+    svg.querySelectorAll('.diagram-node').forEach(n => {
+      n.classList.add('is-removed');
+    });
+
+    await sleep(500);
+
+    renderState('proposed');
+    const newSvg = mount.querySelector('svg');
+    if (!newSvg) { isAnimating = false; return; }
+
+    newSvg.querySelectorAll('.diagram-node, .diagram-edge').forEach(el => {
+      el.classList.add('is-incoming');
+    });
+
+    await sleep(40);
+
+    const incomingNodes = Array.from(newSvg.querySelectorAll('.diagram-node'));
+    incomingNodes.forEach((n, i) => {
+      setTimeout(() => n.classList.add('is-revealed'), i * 80);
+    });
+
+    await sleep(incomingNodes.length * 80 + 200);
+
+    newSvg.querySelectorAll('.diagram-edge').forEach(e => {
+      e.classList.add('is-revealed');
+    });
+
+    setStateButton('proposed');
+    isAnimating = false;
+  }
+
+  function sleep(ms) {
+    return new Promise(r => setTimeout(r, ms));
+  }
+
+  function setStateButton(state) {
+    document.querySelectorAll('.state-btn').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.state === state);
+    });
+  }
+
+  window.FourscoreDiagram = {
+    render: renderState,
+    animate: animateTransition,
+    setStateButton: setStateButton
+  };
+})();
+
+</script>
+<script>
+(function() {
+  'use strict';
+
+  function dashboardScreen() {
+    return `
+      <div class="screen-header">
+        <div>
+          <h3 class="screen-title">Intake dashboard</h3>
+          <p class="screen-sub">Tuesday, May 5 · 11 active leads · 3 awaiting review</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary">Export tracker</button>
+          <button class="btn btn-accent">+ New lead</button>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">New this week</div>
+          <div class="kpi-value">8</div>
+          <div class="kpi-meta">+3 vs last week</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Awaiting intake</div>
+          <div class="kpi-value">4</div>
+          <div class="kpi-meta">2 due reminder</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Letters out for sig</div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-meta">1 pending 5+ days</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Onboarded MTD</div>
+          <div class="kpi-value">11</div>
+          <div class="kpi-meta">Conversion 58%</div>
+        </div>
+      </div>
+
+      <div class="lead-table">
+        <div class="lt-head">
+          <div>Lead</div>
+          <div>Stage</div>
+          <div>Type</div>
+          <div>Source</div>
+          <div>Last update</div>
+        </div>
+        <div class="lt-row" data-lead="onda">
+          <div class="lt-name">
+            Onda Vision Technologies
+            <span class="lt-sub">Kevin Oliver · kmoliver@ncsu.edu</span>
+          </div>
+          <div><span class="pill pill-pending">Awaiting review</span></div>
+          <div>Existing co.</div>
+          <div><span class="pill pill-warm">Warm</span></div>
+          <div>2h ago</div>
+        </div>
+        <div class="lt-row">
+          <div class="lt-name">
+            Locative Press, Inc.
+            <span class="lt-sub">K. Oliver · LLC formation</span>
+          </div>
+          <div><span class="pill pill-doc">Letter sent</span></div>
+          <div>New corp</div>
+          <div><span class="pill pill-warm">Warm</span></div>
+          <div>1d ago</div>
+        </div>
+        <div class="lt-row">
+          <div class="lt-name">
+            J. Johnson &amp; Company LLC
+            <span class="lt-sub">Jason Johnson · jjohnsoncomp@gmail.com</span>
+          </div>
+          <div><span class="pill pill-clio">Pushed to Clio</span></div>
+          <div>New LLC</div>
+          <div><span class="pill pill-cold">Cold (paid)</span></div>
+          <div>3h ago</div>
+        </div>
+        <div class="lt-row">
+          <div class="lt-name">
+            Marian Hewitt
+            <span class="lt-sub">Individual representation</span>
+          </div>
+          <div><span class="pill pill-pending">Intake sent</span></div>
+          <div>Individual</div>
+          <div><span class="pill pill-cold">Cold</span></div>
+          <div>2d ago</div>
+        </div>
+        <div class="lt-row">
+          <div class="lt-name">
+            Bayfront Biotech
+            <span class="lt-sub">Series A · CA-based</span>
+          </div>
+          <div><span class="pill pill-success">Onboarded</span></div>
+          <div>Existing co.</div>
+          <div><span class="pill pill-warm">Warm</span></div>
+          <div>Yesterday</div>
+        </div>
+        <div class="lt-row">
+          <div class="lt-name">
+            Halverson Studios
+            <span class="lt-sub">Awaiting paywall payment</span>
+          </div>
+          <div><span class="pill pill-pending">Qualifying</span></div>
+          <div>—</div>
+          <div><span class="pill pill-cold">Cold</span></div>
+          <div>4h ago</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function leadDetailScreen() {
+    return `
+      <div class="screen-header">
+        <div>
+          <p class="kpi-label" style="margin-bottom:6px;">Lead · Existing company</p>
+          <h3 class="screen-title">Onda Vision Technologies</h3>
+          <p class="screen-sub">Created from warm referral · Jesse Jones · 3 days ago</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary">Open in Clio</button>
+          <button class="btn btn-accent">Review intake →</button>
+        </div>
+      </div>
+
+      <div class="lead-detail">
+        <div>
+          <div class="detail-card">
+            <div class="dc-title">Contact</div>
+            <div class="dc-sub">Captured from intake submission</div>
+            <div class="field-grid">
+              <div class="field">
+                <span class="field-label">Signing authority</span>
+                <span class="field-value">Kevin Oliver</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Email</span>
+                <span class="field-value">kmoliver@ncsu.edu</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Phone</span>
+                <span class="field-value">+1 (919) 555 0118</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Role</span>
+                <span class="field-value">Founder &amp; CEO</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="dc-title">Company</div>
+            <div class="dc-sub">Legal name verified against Delaware Secretary of State</div>
+            <div class="field-grid">
+              <div class="field field-full">
+                <span class="field-label">Legal name</span>
+                <span class="field-value">Onda Vision Technologies, Inc.</span>
+                <span class="field-check"><span class="tick"></span>Matched DE filing #5847291</span>
+              </div>
+              <div class="field">
+                <span class="field-label">State of formation</span>
+                <span class="field-value">Delaware</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Entity type</span>
+                <span class="field-value">C-Corporation</span>
+              </div>
+              <div class="field">
+                <span class="field-label">EIN</span>
+                <span class="field-value">82-XXXXXXX</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Registered agent</span>
+                <span class="field-value">IncServ (DE)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="dc-title">Engagement context</div>
+            <div class="dc-sub">From the intake form and intro call</div>
+            <div class="field-grid">
+              <div class="field field-full">
+                <span class="field-label">Primary reason for choosing us</span>
+                <span class="field-value">Series A preparation, employee equity grants, and ongoing GCR support.</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Originating attorney</span>
+                <span class="field-value">Jesse Jones</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Responsible attorney</span>
+                <span class="field-value">Pete Singh</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="detail-card">
+            <div class="dc-title">Status</div>
+            <div class="dc-sub">Intake submitted 2 hours ago</div>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Lead created</div>
+                  <div class="tl-time">May 2 · From Jesse</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Intro call held</div>
+                  <div class="tl-time">May 3 · 30 min</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Intake form sent</div>
+                  <div class="tl-time">May 3 · Existing co.</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot active"></div>
+                <div>
+                  <div class="tl-title">Intake submitted</div>
+                  <div class="tl-time">May 5 · 11:14am</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot pending"></div>
+                <div>
+                  <div class="tl-title">Push to Clio</div>
+                  <div class="tl-time">Awaiting review</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot pending"></div>
+                <div>
+                  <div class="tl-title">Engagement letter</div>
+                  <div class="tl-time">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card" style="margin-top: 16px;">
+            <div class="dc-title">Tags &amp; flags</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
+              <span class="pill pill-warm">Warm</span>
+              <span class="pill pill-clio">Existing co.</span>
+              <span class="pill pill-pending">Awaiting review</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function reviewScreen() {
+    return `
+      <div class="screen-header">
+        <div>
+          <p class="kpi-label" style="margin-bottom:6px;">Step 1 of 3 · Review intake</p>
+          <h3 class="screen-title">Onda Vision Technologies</h3>
+          <p class="screen-sub">Confirm or correct, then push to Clio in one motion</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary">Back to lead</button>
+          <button class="btn btn-accent">Confirm and push to Clio →</button>
+        </div>
+      </div>
+
+      <div class="lead-detail">
+        <div>
+          <div class="detail-card">
+            <div class="dc-title">As submitted</div>
+            <div class="dc-sub">Captured from the intake form · 11:14am today</div>
+            <div class="field-grid">
+              <div class="field field-full">
+                <span class="field-label">Company name as entered</span>
+                <span class="field-value flag">Onda Vision Tech</span>
+                <span class="field-check" style="color: var(--warm);">
+                  Differs from filed name — see suggestion below
+                </span>
+              </div>
+              <div class="field field-full">
+                <span class="field-label">Suggested legal name (Delaware)</span>
+                <span class="field-value editable">Onda Vision Technologies, Inc.</span>
+                <span class="field-check"><span class="tick"></span>DE filing #5847291 · Active</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Signing authority</span>
+                <span class="field-value editable">Kevin Oliver</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Title</span>
+                <span class="field-value editable">CEO</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Email</span>
+                <span class="field-value editable">kmoliver@ncsu.edu</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Phone</span>
+                <span class="field-value editable">+1 (919) 555 0118</span>
+              </div>
+              <div class="field field-full">
+                <span class="field-label">Address</span>
+                <span class="field-value editable">310 S. Harrington Street, Raleigh, NC 27601</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Entity type</span>
+                <span class="field-value editable">C-Corporation</span>
+              </div>
+              <div class="field">
+                <span class="field-label">State</span>
+                <span class="field-value editable">Delaware</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="dc-title">Matter setup</div>
+            <div class="dc-sub">These will populate the new GCR matter on push</div>
+            <div class="field-grid">
+              <div class="field">
+                <span class="field-label">Originating attorney</span>
+                <span class="field-value editable">Jesse Jones</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Responsible attorney</span>
+                <span class="field-value editable">Pete Singh</span>
+              </div>
+              <div class="field field-full">
+                <span class="field-label">Primary reason for choosing us</span>
+                <span class="field-value editable">Series A preparation, employee equity grants, and ongoing GCR support.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button class="btn btn-secondary">Save draft</button>
+            <button class="btn btn-secondary">Flag for attorney</button>
+            <button class="btn btn-accent">Confirm and push to Clio →</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="config-card">
+            <div class="cfg-title">What this push creates</div>
+            <div class="cfg-row">
+              <span class="cfg-key">Personal contact</span>
+              <span class="cfg-val">1</span>
+            </div>
+            <div class="cfg-row">
+              <span class="cfg-key">Company contact</span>
+              <span class="cfg-val">1</span>
+            </div>
+            <div class="cfg-row">
+              <span class="cfg-key">Matter</span>
+              <span class="cfg-val">GCR (template)</span>
+            </div>
+            <div class="cfg-row">
+              <span class="cfg-key">Custom fields</span>
+              <span class="cfg-val">14 populated</span>
+            </div>
+            <div class="cfg-row">
+              <span class="cfg-key">Subfolders</span>
+              <span class="cfg-val">2 (auto)</span>
+            </div>
+
+            <div class="toggle-row">
+              <span>Auto-tag in ActiveCampaign</span>
+              <span class="toggle"></span>
+            </div>
+            <div class="toggle-row">
+              <span>Update lead tracker</span>
+              <span class="toggle"></span>
+            </div>
+            <div class="toggle-row">
+              <span>Generate engagement letter next</span>
+              <span class="toggle"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function engagementScreen() {
+    return `
+      <div class="screen-header">
+        <div>
+          <p class="kpi-label" style="margin-bottom:6px;">Step 2 of 3 · Engagement letter</p>
+          <h3 class="screen-title">Generate &amp; send for signature</h3>
+          <p class="screen-sub">Standard template · Onda Vision Technologies, Inc.</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary">Edit in Word</button>
+          <button class="btn btn-accent">Send via Xodo Sign →</button>
+        </div>
+      </div>
+
+      <div class="engagement-grid">
+        <div class="doc-frame">
+          <div class="doc-line title"></div>
+          <div class="doc-line long"></div>
+          <div class="doc-line long"></div>
+          <div class="doc-line medium"></div>
+
+          <div style="margin-top: 24px; font-size: 13px; color: var(--ink-soft); line-height: 1.7;">
+            Dear <span class="doc-merge">Kevin Oliver</span>,
+          </div>
+          <div class="doc-line long" style="margin-top: 12px;"></div>
+          <div class="doc-line long"></div>
+          <div class="doc-line medium"></div>
+
+          <div class="doc-line heading"></div>
+          <div class="doc-line long"></div>
+          <div class="doc-line long"></div>
+          <div style="font-size: 13px; color: var(--ink-soft); margin: 8px 0;">
+            Client: <span class="doc-merge">Onda Vision Technologies, Inc.</span>
+          </div>
+          <div class="doc-line long"></div>
+
+          <div class="doc-line heading"></div>
+          <div style="font-size: 13px; color: var(--ink-soft); margin: 8px 0;">
+            Hourly rates: <span class="doc-merge">Standard NC schedule</span>
+          </div>
+          <div class="doc-line long"></div>
+          <div class="doc-line short"></div>
+        </div>
+
+        <div>
+          <div class="config-card">
+            <div class="cfg-title">Template settings</div>
+            <div class="cfg-row">
+              <span class="cfg-key">Template</span>
+              <span class="cfg-val">Standard EL</span>
+            </div>
+            <div class="cfg-row">
+              <span class="cfg-key">Rate schedule</span>
+              <span class="cfg-val">NC standard</span>
+            </div>
+            <div class="cfg-row">
+              <span class="cfg-key">CA variant</span>
+              <span class="cfg-val">No</span>
+            </div>
+            <div class="cfg-row">
+              <span class="cfg-key">Veteran discount</span>
+              <span class="cfg-val">No</span>
+            </div>
+            <div class="cfg-row">
+              <span class="cfg-key">Pre-consult credit</span>
+              <span class="cfg-val">—</span>
+            </div>
+            <div class="cfg-row">
+              <span class="cfg-key">Save to</span>
+              <span class="cfg-val">Faster Suite</span>
+            </div>
+
+            <div class="toggle-row">
+              <span>CC responsible attorney</span>
+              <span class="toggle"></span>
+            </div>
+            <div class="toggle-row">
+              <span>7-day reminder if unsigned</span>
+              <span class="toggle"></span>
+            </div>
+            <div class="toggle-row">
+              <span>Auto-file signed PDF</span>
+              <span class="toggle"></span>
+            </div>
+          </div>
+
+          <div class="config-card" style="margin-top: 16px;">
+            <div class="cfg-title">Recipients</div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="avatar" style="background: var(--accent-soft); color: var(--accent);">KO</span>
+                <div>
+                  <div style="font-size: 13px; font-weight: 500;">Kevin Oliver</div>
+                  <div style="font-size: 11px; color: var(--ink-mute);">Signer · client</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="avatar" style="background: var(--warm-soft); color: var(--warm);">PS</span>
+                <div>
+                  <div style="font-size: 13px; font-weight: 500;">Pete Singh</div>
+                  <div style="font-size: 11px; color: var(--ink-mute);">CC · responsible attorney</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  const SCREENS = {
+    dashboard: dashboardScreen,
+    lead: leadDetailScreen,
+    review: reviewScreen,
+    engagement: engagementScreen
+  };
+
+  function renderScreen(name) {
+    const mount = document.getElementById('screen-mount');
+    if (!mount) return;
+    const fn = SCREENS[name] || SCREENS.dashboard;
+    mount.innerHTML = fn();
+
+    document.querySelectorAll('.sb-link').forEach(l => {
+      l.classList.toggle('is-active', l.dataset.screen === name);
+    });
+    document.querySelectorAll('.screen-tab').forEach(t => {
+      t.classList.toggle('is-active', t.dataset.screen === name);
+    });
+  }
+
+  window.FourscorePortal = {
+    render: renderScreen
+  };
+})();
+
+</script>
+<script>
+(function() {
+  'use strict';
+
+  function init() {
+    if (window.FourscoreDiagram) {
+      window.FourscoreDiagram.render('current');
+    }
+    if (window.FourscorePortal) {
+      window.FourscorePortal.render('dashboard');
+    }
+    wireTabs();
+    wireStateToggle();
+    wireScreenSwitch();
+    wireLeadRowClick();
+  }
+
+  function wireTabs() {
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.panel').forEach(p => {
+          if (p.id === `${target}-panel`) {
+            p.classList.add('is-active');
+            p.removeAttribute('hidden');
+          } else {
+            p.classList.remove('is-active');
+            p.setAttribute('hidden', '');
+          }
+        });
+      });
+    });
+  }
+
+  function wireStateToggle() {
+    const buttons = document.querySelectorAll('.state-btn');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const state = btn.dataset.state;
+        if (state === 'animate') {
+          window.FourscoreDiagram.animate();
+        } else {
+          buttons.forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          window.FourscoreDiagram.render(state);
+        }
+      });
+    });
+  }
+
+  function wireScreenSwitch() {
+    document.querySelectorAll('.sb-link, .screen-tab').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        const screen = el.dataset.screen;
+        if (screen) window.FourscorePortal.render(screen);
+      });
+    });
+  }
+
+  function wireLeadRowClick() {
+    document.addEventListener('click', (e) => {
+      const row = e.target.closest('.lt-row');
+      if (row && row.dataset.lead) {
+        window.FourscorePortal.render('lead');
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+</script>
+</body>
+</html>
