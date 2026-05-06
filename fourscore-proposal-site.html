@@ -539,20 +539,6 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
   color: var(--bg-elev);
 }
 
-.animate-btn {
-  border-left: 1px solid var(--rule);
-  margin-left: 4px;
-  padding-left: 16px;
-}
-
-.play-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--warm);
-  display: inline-block;
-}
-
 .diagram-frame {
   background: var(--bg-elev);
   border: 1px solid var(--rule);
@@ -628,7 +614,7 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
 .diagram-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
 }
 
 .stat {
@@ -1636,32 +1622,34 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
   border-left-color: var(--accent);
 }
 
-.experimental-note {
-  margin-top: 18px;
-  padding: 16px 16px 14px;
-  background: linear-gradient(135deg, rgba(240, 124, 32, 0.06) 0%, rgba(240, 124, 32, 0.02) 100%);
-  border: 1px dashed var(--accent);
+.proposal-expiry {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, rgba(240, 124, 32, 0.10) 0%, rgba(240, 124, 32, 0.03) 100%);
+  border: 1px solid var(--accent);
   border-radius: 4px;
-  position: relative;
+  font-family: var(--sans);
 }
 
-.exp-header {
-  margin-bottom: 6px;
-}
-
-.exp-tag {
+.proposal-expiry-tag {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--accent);
   font-weight: 700;
+  padding: 4px 8px;
+  background: var(--accent-soft);
+  border-radius: 3px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--sans);
 }
 
-.exp-tag::before {
+.proposal-expiry-tag::before {
   content: '';
   width: 6px;
   height: 6px;
@@ -1671,24 +1659,85 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
   animation: expPulse 2.4s ease-in-out infinite;
 }
 
+.proposal-expiry-text {
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.proposal-expiry-text strong {
+  color: var(--accent-deep);
+  font-weight: 700;
+}
+
 @keyframes expPulse {
   0%, 100% { opacity: 0.4; transform: scale(0.85); }
   50% { opacity: 1; transform: scale(1); }
 }
 
-.exp-title {
-  font-family: var(--display);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-  margin-bottom: 6px;
+.info-tooltip {
+  position: relative;
+  display: inline-flex;
+  margin-left: 6px;
+  vertical-align: middle;
+  cursor: help;
 }
 
-.exp-text {
-  font-size: 12.5px;
-  color: var(--ink-soft);
+.info-tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--display);
+  font-size: 10px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+}
+
+.info-tooltip-content {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  padding: 12px 14px;
+  background: var(--ink);
+  color: var(--bg-elev);
+  font-size: 12px;
   line-height: 1.55;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+  z-index: 10;
+  font-family: var(--sans);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: normal;
+}
+
+.info-tooltip-content::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--ink);
+}
+
+.info-tooltip:hover .info-tooltip-content,
+.info-tooltip:focus-within .info-tooltip-content {
+  opacity: 1;
+  visibility: visible;
 }
 
 .output-value {
@@ -2111,28 +2160,10 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
       <div class="state-toggle" role="group" aria-label="Process view">
         <button class="state-btn is-active" data-state="current">Current state</button>
         <button class="state-btn" data-state="proposed">Proposed state</button>
-        <button class="state-btn animate-btn" data-state="animate">
-          <span class="play-dot"></span>
-          Animate transition
-        </button>
       </div>
     </div>
 
     <div class="diagram-frame">
-      <div class="diagram-legend">
-        <span class="legend-item"><span class="dot dot-gray"></span>Lead / outcome</span>
-        <span class="legend-item"><span class="dot dot-blue"></span>Client touchpoint</span>
-        <span class="legend-item"><span class="dot dot-amber"></span>Manual / waiting</span>
-        <span class="legend-item"><span class="dot dot-purple"></span>Attorney decision</span>
-        <span class="legend-item"><span class="dot dot-teal"></span>Clio data work</span>
-        <span class="legend-item"><span class="dot dot-coral"></span>Document &amp; signature</span>
-        <span class="legend-item"><span class="dot dot-green"></span>Automated by portal</span>
-      </div>
-
-      <div class="diagram-stage" id="diagram-stage">
-        <div id="diagram-mount"></div>
-      </div>
-
       <div class="diagram-stats">
         <div class="stat">
           <span class="stat-label">Manual touchpoints</span>
@@ -2149,6 +2180,20 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
           <span class="stat-value" id="stat-duplicate">4</span>
           <span class="stat-delta" id="stat-duplicate-delta"></span>
         </div>
+      </div>
+
+      <div class="diagram-legend">
+        <span class="legend-item"><span class="dot dot-gray"></span>Lead / outcome</span>
+        <span class="legend-item"><span class="dot dot-blue"></span>Client touchpoint</span>
+        <span class="legend-item"><span class="dot dot-amber"></span>Manual / waiting</span>
+        <span class="legend-item"><span class="dot dot-purple"></span>Attorney decision</span>
+        <span class="legend-item"><span class="dot dot-teal"></span>Clio data work</span>
+        <span class="legend-item"><span class="dot dot-coral"></span>Document &amp; signature</span>
+        <span class="legend-item"><span class="dot dot-green"></span>Automated by portal</span>
+      </div>
+
+      <div class="diagram-stage" id="diagram-stage">
+        <div id="diagram-mount"></div>
       </div>
     </div>
 
@@ -2229,6 +2274,10 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
     <div class="panel-head">
       <h2 class="panel-title">How we&rsquo;d build it, together</h2>
       <p class="panel-lede">Three phases, each with a clear handoff. Discovery is a fixed fee; the build and acceptance phases are priced as a single engagement once scope is settled.</p>
+      <div class="proposal-expiry" role="note">
+        <span class="proposal-expiry-tag">Time-sensitive</span>
+        <span class="proposal-expiry-text">This proposal expires on <strong>May 15, 2026</strong>.</span>
+      </div>
     </div>
 
     <div class="phase-journey">
@@ -2249,18 +2298,12 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
             <li>Re-architected process design</li>
             <li>Proposal of AI agents where they earn their place</li>
             <li>Roadmap for future improvements beyond Phase 1</li>
+            <li>Experimental Fourscore AI wiki<span class="info-tooltip" tabindex="0" aria-label="More information about the Fourscore AI wiki"><span class="info-tooltip-icon" aria-hidden="true">i</span><span class="info-tooltip-content" role="tooltip">A new feature we&rsquo;re developing: a living, Wikipedia-style knowledge base of your business. It grows with every conversation we have and every document you share &mdash; capturing not just the documented procedures, but the tacit, institutional knowledge that usually lives only in people&rsquo;s heads. The idea: future features can be designed against the wiki as our first source of context, rather than driving cost by pulling Fourscore and IXFoundry staff into another discovery meeting and walkthrough.</span></span></li>
           </ul>
         </div>
         <div class="phase-output">
           <span class="output-label">You receive</span>
           <span class="output-value">A workflow design, agent recommendations, and a future roadmap</span>
-        </div>
-        <div class="experimental-note">
-          <div class="exp-header">
-            <span class="exp-tag">Experimental &middot; included at no extra cost</span>
-          </div>
-          <p class="exp-title">Fourscore AI Wiki</p>
-          <p class="exp-text">A new feature we&rsquo;re developing: a living, Wikipedia-style knowledge base of your business. It grows with every conversation we have and every document you share &mdash; capturing not just the documented procedures, but the tacit, institutional knowledge that usually lives only in people&rsquo;s heads. The idea: future features can be designed against the wiki as our first source of context, rather than pulling Stephanie or Jesse into another walkthrough.</p>
         </div>
       </div>
 
@@ -3545,13 +3588,9 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
         const state = btn.dataset.state;
-        if (state === 'animate') {
-          window.FourscoreDiagram.animate();
-        } else {
-          buttons.forEach(b => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
-          window.FourscoreDiagram.render(state);
-        }
+        buttons.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        window.FourscoreDiagram.render(state);
       });
     });
   }
