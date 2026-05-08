@@ -650,6 +650,221 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
   height: 16px;
 }
 
+.time-savings {
+  padding: 28px 24px;
+  background: var(--bg-elev);
+  border-bottom: 1px solid var(--rule-soft);
+  text-align: center;
+}
+
+.ts-summary-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto;
+  background: transparent;
+  border: none;
+  padding: 4px 12px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  border-radius: 4px;
+}
+
+.ts-summary-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.ts-summary-chevron {
+  display: inline-block;
+  font-size: 22px;
+  line-height: 0.6;
+  color: var(--ink-mute);
+  transition: transform 0.22s ease, color 0.18s ease;
+}
+
+.ts-summary-toggle:hover .ts-summary-chevron { color: var(--ink); }
+
+.ts-summary-toggle[aria-expanded="true"] .ts-summary-chevron {
+  transform: rotate(180deg);
+}
+
+.ts-headline {
+  display: inline-block;
+}
+
+.ts-headline-number {
+  font-family: var(--display);
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1.05;
+  display: block;
+}
+
+.ts-headline-label {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-mute);
+  display: block;
+  margin-top: 6px;
+  letter-spacing: 0.01em;
+}
+
+.ts-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.ts-details.is-open {
+  max-height: 3000px;
+}
+
+.ts-supporting {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 22px auto 18px;
+}
+
+.ts-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 22px;
+  border-right: 1px solid var(--rule-soft);
+}
+
+.ts-figure:last-child { border-right: none; }
+
+.ts-figure-value {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  line-height: 1;
+}
+
+.ts-figure-label {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-mute);
+}
+
+.ts-clarification {
+  font-family: var(--display);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-mute);
+  margin: 0 auto 18px;
+  max-width: 560px;
+  line-height: 1.55;
+}
+
+.ts-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--bg-deep);
+  color: var(--ink);
+  border: 1px solid var(--rule-soft);
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.ts-toggle:hover {
+  background: var(--rule-soft);
+  border-color: var(--rule);
+}
+
+.ts-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.ts-toggle-chevron {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.ts-toggle[aria-expanded="true"] .ts-toggle-chevron {
+  transform: rotate(180deg);
+}
+
+.ts-breakdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-out;
+}
+
+.ts-breakdown.is-open {
+  max-height: 2400px;
+}
+
+.ts-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background: var(--bg);
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink);
+  text-align: left;
+}
+
+.ts-table th,
+.ts-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.ts-table thead th {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  border-bottom: 1px solid var(--rule);
+}
+
+.ts-table td:nth-child(2),
+.ts-table td:nth-child(3),
+.ts-table th:nth-child(2),
+.ts-table th:nth-child(3) {
+  text-align: right;
+  white-space: nowrap;
+  width: 120px;
+}
+
+.ts-cell-empty {
+  color: var(--ink-mute);
+}
+
+.ts-table-total th,
+.ts-table-total td {
+  font-weight: 700;
+  border-top: 1px solid var(--rule);
+  border-bottom: none;
+}
+
+.ts-table-total td {
+  font-family: var(--display);
+}
+
 .diagram-hint {
   font-size: 13px;
   color: var(--ink-mute);
@@ -1546,6 +1761,29 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
   color: var(--accent-deep);
 }
 
+.phase-pill-subscription {
+  background: var(--bg-deep);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+}
+
+.phase-4 {
+  border-radius: 6px;
+  margin-bottom: 64px;
+}
+
+.phase-4 .phase-num {
+  color: var(--ink);
+}
+
+.phase-4 .includes-list li::before {
+  background: var(--ink);
+}
+
+.phase-4 .phase-output {
+  border-left-color: var(--ink);
+}
+
 .phase-title {
   font-family: var(--display);
   font-size: 24px;
@@ -1779,7 +2017,7 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
 
 .fee-grid {
   display: grid;
-  grid-template-columns: 1fr 1.4fr;
+  grid-template-columns: 1fr 1.4fr 1fr;
   gap: 20px;
   margin-bottom: 32px;
 }
@@ -1850,6 +2088,22 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
 
 .fee-card-fixed .fee-status { color: var(--secondary); }
 .fee-card-scope .fee-status { color: var(--accent); }
+.fee-card-subscription .fee-status { color: var(--ink); }
+
+.fee-card-subscription {
+  position: relative;
+}
+
+.fee-card-subscription::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--ink);
+  border-radius: 4px 0 0 4px;
+}
 
 .fee-amount {
   display: flex;
@@ -2061,6 +2315,13 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
   .factors-list { grid-template-columns: 1fr; }
   .fee-section { padding: 24px 20px; }
   .next-text { font-size: 18px; }
+  .time-savings { padding: 22px 18px; }
+  .ts-headline-number { font-size: 36px; }
+  .ts-supporting { flex-direction: column; gap: 14px; max-width: 320px; }
+  .ts-figure { border-right: none; padding: 6px 0; }
+  .ts-table th, .ts-table td { padding: 8px 10px; font-size: 12px; }
+  .ts-table td:nth-child(2), .ts-table td:nth-child(3),
+  .ts-table th:nth-child(2), .ts-table th:nth-child(3) { width: 84px; }
 }
 
 @media (min-width: 721px) and (max-width: 980px) {
@@ -2164,6 +2425,83 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
     </div>
 
     <div class="diagram-frame">
+      <div class="time-savings">
+        <button class="ts-summary-toggle" type="button" aria-expanded="false" aria-controls="ts-details">
+          <span class="ts-headline">
+            <span class="ts-headline-number">~49 minutes</span>
+            <span class="ts-headline-label">saved per intake</span>
+          </span>
+          <span class="ts-summary-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="ts-details" id="ts-details">
+          <div class="ts-supporting">
+            <div class="ts-figure">
+              <span class="ts-figure-value">~4 hours</span>
+              <span class="ts-figure-label">per week</span>
+            </div>
+            <div class="ts-figure">
+              <span class="ts-figure-value">~18 hours</span>
+              <span class="ts-figure-label">per month</span>
+            </div>
+            <div class="ts-figure">
+              <span class="ts-figure-value">~5 working weeks</span>
+              <span class="ts-figure-label">per year</span>
+            </div>
+            <div class="ts-figure">
+              <span class="ts-figure-value">~10%</span>
+              <span class="ts-figure-label">of her working year</span>
+            </div>
+          </div>
+          <p class="ts-clarification">Based on one intake per day against an average ~48 working weeks per year. Estimate built from the current-state diagram and Stephanie&rsquo;s process walkthrough &mdash; we&rsquo;ll refine this together in Phase 01.</p>
+          <button class="ts-toggle" type="button" aria-expanded="false" aria-controls="ts-breakdown">
+            <span class="ts-toggle-text">Show the breakdown</span>
+            <span class="ts-toggle-chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="ts-breakdown" id="ts-breakdown">
+            <table class="ts-table">
+              <thead>
+                <tr>
+                  <th scope="col">Step</th>
+                  <th scope="col">Today</th>
+                  <th scope="col">With the portal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Triage cold vs. warm, send paywall or coordinate intro</td><td>8 min</td><td>2 min</td></tr>
+                <tr><td>Update Lead Tracker spreadsheet (initial)</td><td>2 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Send intake form, tag in ActiveCampaign</td><td>4 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Asana / handoff tracking</td><td>2 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>7-day reminder if no response</td><td>3 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>State SoS lookup for legal name (averaged across all intakes)</td><td>2.5 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Validate intake submission</td><td>3 min</td><td>5 min</td></tr>
+                <tr><td>Confirm form type during/after intro call</td><td class="ts-cell-empty">&mdash;</td><td>1 min</td></tr>
+                <tr><td>Create personal contact in Clio</td><td>4 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Create company contact with custom fields</td><td>8 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Create GCR matter, attorney, custom fields</td><td>7 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Click &ldquo;Push to Clio&rdquo; and verify</td><td class="ts-cell-empty">&mdash;</td><td>2 min</td></tr>
+                <tr><td>Generate engagement letter from template</td><td>4 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Tidy Word doc, save as final</td><td>4 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Click &ldquo;Generate engagement letter&rdquo; and review</td><td class="ts-cell-empty">&mdash;</td><td>3 min</td></tr>
+                <tr><td>Send via Xodo Sign with attorney CC</td><td>4 min</td><td>1 min</td></tr>
+                <tr><td>Watch for signature, follow up</td><td>3 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Drag signed PDF to Faster Suite folder</td><td>2 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Update Lead Tracker (signed)</td><td>2 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Update ACH/Credit Card tracker</td><td>3 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>ActiveCampaign tag as client</td><td>1 min</td><td class="ts-cell-empty">&mdash;</td></tr>
+                <tr><td>Edge cases / exceptions (averaged)</td><td class="ts-cell-empty">&mdash;</td><td>2 min</td></tr>
+              </tbody>
+              <tfoot>
+                <tr class="ts-table-total">
+                  <th scope="row">Total per intake</th>
+                  <td>~65 min</td>
+                  <td>~16 min</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <div class="diagram-stats">
         <div class="stat">
           <span class="stat-label">Manual touchpoints</span>
@@ -2208,7 +2546,7 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
   <section id="portal-panel" class="panel" role="tabpanel" hidden>
     <div class="panel-head">
       <h2 class="panel-title">The portal, sketched</h2>
-      <p class="panel-lede">A first cut at the screens Stephanie would live in. The dashboard is home base; clicking a lead opens a review screen where intake data is checked, validated, and pushed to Clio in one motion.</p>
+      <p class="panel-lede">A first cut at the screens Stephanie and the attorneys would live in. The dashboard is home base; clicking a lead opens a review screen where intake data is checked, validated, and pushed to Clio in one motion. Built as a secure, business-grade portal &mdash; extensible to host additional workflows as the firm scales.</p>
     </div>
 
     <div class="mockup-shell">
@@ -2323,6 +2661,8 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
                 <li>Regular check-ins with Stephanie and the team</li>
                 <li>Course corrections as the team sees the build take shape</li>
                 <li>Integrations with Clio, Faster Suite, Xodo Sign, ActiveCampaign, and SoS lookups</li>
+                <li>Implementation of the AI agents agreed in Phase 01</li>
+                <li>Built to Fourscore&rsquo;s security specifications</li>
               </ul>
             </div>
             <div class="phase-output">
@@ -2352,9 +2692,32 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
       </div>
     </div>
 
+    <div class="phase phase-4">
+      <div class="phase-header">
+        <span class="phase-num">04</span>
+        <span class="phase-pill phase-pill-subscription">Monthly subscription &middot; scope-dependent</span>
+      </div>
+      <h3 class="phase-title">Operational</h3>
+      <p class="phase-desc">Once the portal is live, we keep it running. The platform stays up, stays current, and keeps improving with the firm.</p>
+      <div class="phase-includes">
+        <span class="includes-label">What we do</span>
+        <ul class="includes-list">
+          <li>24/7 uptime monitoring with on-call response</li>
+          <li>Hosting, infrastructure, and security patching</li>
+          <li>Bug fixes and minor enhancements within scope</li>
+          <li>AI agent monitoring and cost management</li>
+          <li>Quarterly review with Stephanie to surface improvements</li>
+        </ul>
+      </div>
+      <div class="phase-output">
+        <span class="output-label">You receive</span>
+        <span class="output-value">A platform that stays live, secure, and improving &mdash; long after launch</span>
+      </div>
+    </div>
+
     <div class="fee-section">
       <h3 class="fee-heading">Fee structure</h3>
-      <p class="fee-lede">Discovery is fixed so you know exactly what the first phase costs. Build and acceptance are priced together once we&rsquo;ve agreed scope &mdash; no surprises, no padding.</p>
+      <p class="fee-lede">Discovery is fixed so you know exactly what the first phase costs. Build and acceptance are priced together once we&rsquo;ve agreed scope. Operational is a monthly subscription, sized to what we&rsquo;re running &mdash; no surprises, no padding.</p>
 
       <div class="fee-grid">
         <div class="fee-card fee-card-fixed">
@@ -2390,12 +2753,33 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
             </ul>
           </div>
         </div>
+
+        <div class="fee-card fee-card-subscription">
+          <div class="fee-card-head">
+            <span class="fee-tag">Phase 04</span>
+            <span class="fee-status">Monthly</span>
+          </div>
+          <div class="fee-amount fee-amount-scope">
+            <span class="fee-tbd">Scale-dependent</span>
+          </div>
+          <p class="fee-card-name">Operational</p>
+          <p class="fee-card-detail">A monthly subscription that keeps the portal running once it&rsquo;s live. Set alongside the Phases 02 &amp; 03 fees at the end of Phase 01, sized to what we&rsquo;ll be operating.</p>
+          <div class="fee-factors">
+            <span class="factors-label">Driven by</span>
+            <ul class="factors-list">
+              <li>Operational cost (hosting, AI usage, integrations)</li>
+              <li>Scale (intake volume, users, data retention)</li>
+              <li>Service level (response time, hours of coverage)</li>
+              <li>Enhancements and improvements within scope</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div class="fee-meta">
         <div class="fee-meta-item">
           <span class="meta-key">Engagement model</span>
-          <span class="meta-val">Fixed-fee per phase, with scope locked at the gate</span>
+          <span class="meta-val">Fixed-fee per project phase, plus a monthly subscription once live</span>
         </div>
         <div class="fee-meta-item">
           <span class="meta-key">Decision point</span>
@@ -2404,6 +2788,10 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
         <div class="fee-meta-item">
           <span class="meta-key">Phase 02 &amp; 03 invoicing</span>
           <span class="meta-val">Milestone-based, agreed in writing</span>
+        </div>
+        <div class="fee-meta-item">
+          <span class="meta-key">Phase 04 invoicing</span>
+          <span class="meta-val">Monthly in advance, agreed alongside Phases 02 &amp; 03</span>
         </div>
       </div>
     </div>
@@ -3556,6 +3944,7 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
     wireStateToggle();
     wireScreenSwitch();
     wireLeadRowClick();
+    wireTimeSavingsToggle();
   }
 
   function wireTabs() {
@@ -3611,6 +4000,27 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
       if (row && row.dataset.lead) {
         window.FourscorePortal.render('lead');
       }
+    });
+  }
+
+  function wireTimeSavingsToggle() {
+    const summaryToggle = document.querySelector('.ts-summary-toggle');
+    const details = document.getElementById('ts-details');
+    if (summaryToggle && details) {
+      summaryToggle.addEventListener('click', () => {
+        const isOpen = details.classList.toggle('is-open');
+        summaryToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    }
+
+    const toggle = document.querySelector('.ts-toggle');
+    const breakdown = document.getElementById('ts-breakdown');
+    if (!toggle || !breakdown) return;
+    const textEl = toggle.querySelector('.ts-toggle-text');
+    toggle.addEventListener('click', () => {
+      const isOpen = breakdown.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (textEl) textEl.textContent = isOpen ? 'Hide the breakdown' : 'Show the breakdown';
     });
   }
 
