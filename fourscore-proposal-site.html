@@ -1646,9 +1646,97 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 0;
-  margin-bottom: 64px;
+  margin-bottom: 24px;
   position: relative;
   align-items: stretch;
+}
+
+.phase-timeline {
+  margin-bottom: 64px;
+}
+
+.phase-timeline-bar {
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--bg-elev);
+}
+
+.phase-timeline-segment {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 18px 16px;
+  border-right: 1px solid var(--rule);
+  position: relative;
+  min-width: 0;
+}
+
+.phase-timeline-segment:last-child {
+  border-right: none;
+}
+
+.phase-timeline-segment::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.phase-timeline-segment.seg-1 {
+  background: linear-gradient(135deg, rgba(31, 90, 77, 0.10) 0%, rgba(31, 90, 77, 0.03) 100%);
+}
+
+.phase-timeline-segment.seg-1::before {
+  background: var(--secondary);
+}
+
+.phase-timeline-segment.seg-2,
+.phase-timeline-segment.seg-3 {
+  background: linear-gradient(135deg, rgba(240, 124, 32, 0.10) 0%, rgba(240, 124, 32, 0.03) 100%);
+}
+
+.phase-timeline-segment.seg-2::before,
+.phase-timeline-segment.seg-3::before {
+  background: var(--accent);
+}
+
+.seg-phase {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.seg-dates {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phase-timeline-foot {
+  margin-top: 12px;
+  text-align: right;
+  font-family: var(--display);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-mute);
+}
+
+.phase-timeline-foot strong {
+  color: var(--ink);
+  font-weight: 700;
+  font-style: normal;
 }
 
 .phase-track {
@@ -2310,6 +2398,14 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
     border-bottom: 1px dashed var(--rule);
   }
   .phase-track { display: none; }
+  .phase-timeline-bar { flex-direction: column; }
+  .phase-timeline-segment {
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+    flex: 1 1 auto !important;
+  }
+  .phase-timeline-segment:last-child { border-bottom: none; }
+  .phase-timeline-foot { text-align: left; }
   .fee-grid { grid-template-columns: 1fr; }
   .fee-meta { grid-template-columns: 1fr; }
   .factors-list { grid-template-columns: 1fr; }
@@ -2626,7 +2722,7 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
           <span class="phase-num">01</span>
           <span class="phase-pill phase-pill-fixed">Fixed fee</span>
         </div>
-        <h3 class="phase-title">Discovery &amp; design</h3>
+        <h3 class="phase-title">Discovery &amp; Design</h3>
         <p class="phase-desc">We sit with Stephanie and the team, walk through the process as it stands today, and come back with a re-architected workflow shaped around the portal.</p>
         <div class="phase-includes">
           <span class="includes-label">What we do</span>
@@ -2672,7 +2768,7 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
           </div>
 
           <div class="phase phase-3">
-            <h3 class="phase-title">Acceptance testing &amp; acceptance</h3>
+            <h3 class="phase-title">Acceptance Testing</h3>
             <p class="phase-desc">Stephanie, Fourscore, and our team test the platform end-to-end against the specification agreed in Phase 1.</p>
             <div class="phase-includes">
               <span class="includes-label">What we do</span>
@@ -2690,6 +2786,24 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="phase-timeline" aria-label="Proposed project timeline">
+      <div class="phase-timeline-bar">
+        <div class="phase-timeline-segment seg-1" style="flex: 12">
+          <span class="seg-phase">Phase 01</span>
+          <span class="seg-dates">May 18 &ndash; 29</span>
+        </div>
+        <div class="phase-timeline-segment seg-2" style="flex: 17">
+          <span class="seg-phase">Phase 02</span>
+          <span class="seg-dates">Jun 1 &ndash; 17</span>
+        </div>
+        <div class="phase-timeline-segment seg-3" style="flex: 7">
+          <span class="seg-phase">Phase 03</span>
+          <span class="seg-dates">Jun 18 &ndash; 24</span>
+        </div>
+      </div>
+      <p class="phase-timeline-foot">Operational phase begins <strong>Jun 24, 2026</strong>. Dates are indicative and will be confirmed at the end of Phase 01.</p>
     </div>
 
     <div class="phase phase-4">
@@ -2729,7 +2843,7 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
             <span class="fee-currency">$</span>
             <span class="fee-number">5,000</span>
           </div>
-          <p class="fee-card-name">Discovery &amp; design</p>
+          <p class="fee-card-name">Discovery &amp; Design</p>
           <p class="fee-card-detail">A fixed fee covering interviews, process re-architecture, AI agent recommendations, and the future roadmap. Paid in full on engagement.</p>
         </div>
 
@@ -2741,7 +2855,7 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
           <div class="fee-amount fee-amount-scope">
             <span class="fee-tbd">To be agreed</span>
           </div>
-          <p class="fee-card-name">Build &amp; acceptance</p>
+          <p class="fee-card-name">Build &amp; Acceptance Testing</p>
           <p class="fee-card-detail">A single combined fee for the build and acceptance phases, agreed at the end of Phase 1 once we&rsquo;ve settled which features make it into the first release.</p>
           <div class="fee-factors">
             <span class="factors-label">Driven by</span>
