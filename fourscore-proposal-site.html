@@ -1724,6 +1724,17 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
   text-overflow: ellipsis;
 }
 
+.seg-bdays {
+  font-family: var(--display);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .phase-timeline-foot {
   margin-top: 12px;
   text-align: right;
@@ -1999,71 +2010,6 @@ body.is-locked > *:not(.auth-gate):not(.auth-shield):not(script) {
 @keyframes expPulse {
   0%, 100% { opacity: 0.4; transform: scale(0.85); }
   50% { opacity: 1; transform: scale(1); }
-}
-
-.info-tooltip {
-  position: relative;
-  display: inline-flex;
-  margin-left: 6px;
-  vertical-align: middle;
-  cursor: help;
-}
-
-.info-tooltip-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  font-family: var(--display);
-  font-size: 10px;
-  font-weight: 700;
-  font-style: italic;
-  line-height: 1;
-}
-
-.info-tooltip-content {
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 320px;
-  padding: 12px 14px;
-  background: var(--ink);
-  color: var(--bg-elev);
-  font-size: 12px;
-  line-height: 1.55;
-  border-radius: 4px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.18s ease, visibility 0.18s ease;
-  z-index: 10;
-  font-family: var(--sans);
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-  white-space: normal;
-}
-
-.info-tooltip-content::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: var(--ink);
-}
-
-.info-tooltip:hover .info-tooltip-content,
-.info-tooltip:focus-within .info-tooltip-content {
-  opacity: 1;
-  visibility: visible;
 }
 
 .output-value {
@@ -2677,6 +2623,10 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
               <span class="sb-icon"></span>
               Engagement letter
             </a>
+            <a class="sb-link" data-screen="onboarded">
+              <span class="sb-icon"></span>
+              Onboarded clients
+            </a>
           </nav>
           <div class="sidebar-foot">
             <div class="sf-user">
@@ -2701,6 +2651,7 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
       <button class="screen-tab" data-screen="lead">Lead detail</button>
       <button class="screen-tab" data-screen="review">Intake review</button>
       <button class="screen-tab" data-screen="engagement">Engagement letter</button>
+      <button class="screen-tab" data-screen="onboarded">Onboarded clients</button>
     </div>
   </section>
 
@@ -2732,7 +2683,6 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
             <li>Re-architected process design</li>
             <li>Proposal of AI agents where they earn their place</li>
             <li>Roadmap for future improvements beyond Phase 1</li>
-            <li>Experimental Fourscore AI wiki<span class="info-tooltip" tabindex="0" aria-label="More information about the Fourscore AI wiki"><span class="info-tooltip-icon" aria-hidden="true">i</span><span class="info-tooltip-content" role="tooltip">A new feature we&rsquo;re developing: a living, Wikipedia-style knowledge base of your business. It grows with every conversation we have and every document you share &mdash; capturing not just the documented procedures, but the tacit, institutional knowledge that usually lives only in people&rsquo;s heads. The idea: future features can be designed against the wiki as our first source of context, rather than driving cost by pulling Fourscore and IXFoundry staff into another discovery meeting and walkthrough.</span></span></li>
           </ul>
         </div>
         <div class="phase-output">
@@ -2793,17 +2743,20 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
         <div class="phase-timeline-segment seg-1" style="flex: 12">
           <span class="seg-phase">Phase 01</span>
           <span class="seg-dates">May 18 &ndash; 29</span>
+          <span class="seg-bdays">10 business days</span>
         </div>
         <div class="phase-timeline-segment seg-2" style="flex: 17">
           <span class="seg-phase">Phase 02</span>
           <span class="seg-dates">Jun 1 &ndash; 17</span>
+          <span class="seg-bdays">13 business days</span>
         </div>
         <div class="phase-timeline-segment seg-3" style="flex: 7">
           <span class="seg-phase">Phase 03</span>
           <span class="seg-dates">Jun 18 &ndash; 24</span>
+          <span class="seg-bdays">5 business days</span>
         </div>
       </div>
-      <p class="phase-timeline-foot">Operational phase begins <strong>Jun 24, 2026</strong>. Dates are indicative and will be confirmed at the end of Phase 01.</p>
+      <p class="phase-timeline-foot">Operational phase begins <strong>Jun 24, 2026</strong> &middot; 28 business days total. Dates are indicative and will be confirmed at the end of Phase 01.</p>
     </div>
 
     <div class="phase phase-4">
@@ -4016,11 +3969,244 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
     `;
   }
 
+  function onboardedScreen() {
+    return `
+      <div class="screen-header">
+        <div>
+          <p class="kpi-label" style="margin-bottom:6px;">Active client &middot; Existing company</p>
+          <h3 class="screen-title">Bayfront Biotech, Inc.</h3>
+          <p class="screen-sub">Series A &middot; Onboarded May 10, 2026 &middot; 7 active matters</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary">Open in Clio</button>
+          <button class="btn btn-accent">+ New matter</button>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">Status</div>
+          <div class="kpi-value" style="color: var(--node-green-text); font-size: 26px;">Active</div>
+          <div class="kpi-meta">Onboarded 1 day ago</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Active matters</div>
+          <div class="kpi-value">7</div>
+          <div class="kpi-meta">3 due this week</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Engagement letter</div>
+          <div class="kpi-value" style="font-size: 26px;">Signed</div>
+          <div class="kpi-meta">All addenda current</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">YTD billings</div>
+          <div class="kpi-value">$48,200</div>
+          <div class="kpi-meta">+12% vs forecast</div>
+        </div>
+      </div>
+
+      <div class="lead-detail">
+        <div>
+          <div class="detail-card">
+            <div class="dc-title">Primary contact</div>
+            <div class="dc-sub">Signing authority &amp; day-to-day</div>
+            <div class="field-grid">
+              <div class="field">
+                <span class="field-label">Signing authority</span>
+                <span class="field-value">Dr. Yvonne Tan</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Role</span>
+                <span class="field-value">Co-founder &amp; CEO</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Email</span>
+                <span class="field-value">yvonne@bayfront.bio</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Phone</span>
+                <span class="field-value">+1 (415) 555 0241</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="dc-title">Company</div>
+            <div class="dc-sub">Verified against California Secretary of State</div>
+            <div class="field-grid">
+              <div class="field field-full">
+                <span class="field-label">Legal name</span>
+                <span class="field-value">Bayfront Biotech, Inc.</span>
+                <span class="field-check"><span class="tick"></span>Matched CA filing #C4129867</span>
+              </div>
+              <div class="field">
+                <span class="field-label">State of formation</span>
+                <span class="field-value">California</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Entity type</span>
+                <span class="field-value">C-Corporation</span>
+              </div>
+              <div class="field">
+                <span class="field-label">EIN</span>
+                <span class="field-value">88-XXXXXXX</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Registered agent</span>
+                <span class="field-value">CT Corporation (CA)</span>
+              </div>
+              <div class="field field-full">
+                <span class="field-label">Principal address</span>
+                <span class="field-value">1240 Embarcadero Rd &middot; Palo Alto, CA 94303</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="dc-title">Engagement scope</div>
+            <div class="dc-sub">From the signed engagement letter &middot; GCR retainer</div>
+            <div class="field-grid">
+              <div class="field field-full">
+                <span class="field-label">Primary reason for engaging us</span>
+                <span class="field-value">Series A close, employee equity plan rollout, and ongoing general corporate representation.</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Originating attorney</span>
+                <span class="field-value">Jesse Jones</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Responsible attorney</span>
+                <span class="field-value">Pete Singh</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Rate schedule</span>
+                <span class="field-value">CA standard</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Engagement letter</span>
+                <span class="field-value">Signed &middot; May 10, 2026</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="dc-title">Active matters</div>
+            <div class="dc-sub">7 open &middot; last activity 4 hours ago</div>
+            <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--bg-deep); border-radius: 4px; font-size: 13px;">
+                <span style="font-weight: 600;">Series A &mdash; closing docs</span>
+                <span style="color: var(--ink-mute);">Updated 4h ago</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--bg-deep); border-radius: 4px; font-size: 13px;">
+                <span style="font-weight: 600;">Employee stock option plan</span>
+                <span style="color: var(--ink-mute);">Updated 1d ago</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--bg-deep); border-radius: 4px; font-size: 13px;">
+                <span style="font-weight: 600;">IP assignment &mdash; Dr. Park</span>
+                <span style="color: var(--ink-mute);">Updated 2d ago</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--bg-deep); border-radius: 4px; font-size: 13px;">
+                <span style="font-weight: 600;">Board consents &mdash; Q2</span>
+                <span style="color: var(--ink-mute);">Updated 3d ago</span>
+              </div>
+              <div style="text-align: center; padding-top: 4px; font-size: 12px; color: var(--ink-mute);">+ 3 more matters</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="detail-card">
+            <div class="dc-title">Onboarding journey</div>
+            <div class="dc-sub">Completed May 10, 2026</div>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Lead created</div>
+                  <div class="tl-time">Apr 28 &middot; From Jesse</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Intro call held</div>
+                  <div class="tl-time">Apr 30 &middot; 30 min</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Intake submitted</div>
+                  <div class="tl-time">May 2 &middot; Existing co.</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Validated &amp; pushed to Clio</div>
+                  <div class="tl-time">May 4 &middot; CA SoS verified</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Engagement letter sent</div>
+                  <div class="tl-time">May 6 &middot; via Xodo Sign</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Letter signed &amp; filed</div>
+                  <div class="tl-time">May 10 &middot; Faster Suite</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot done"></div>
+                <div>
+                  <div class="tl-title">Welcome packet sent</div>
+                  <div class="tl-time">May 10 &middot; Auto via portal</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card" style="margin-top: 16px;">
+            <div class="dc-title">Tags &amp; flags</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
+              <span class="pill pill-success">Active client</span>
+              <span class="pill pill-success">Fully onboarded</span>
+              <span class="pill pill-clio">In Clio</span>
+              <span class="pill pill-warm">GCR retainer</span>
+            </div>
+          </div>
+
+          <div class="detail-card" style="margin-top: 16px;">
+            <div class="dc-title">Billing</div>
+            <div class="dc-sub">ACH on file &middot; auto-bill enabled</div>
+            <div class="field-grid">
+              <div class="field">
+                <span class="field-label">Method</span>
+                <span class="field-value">ACH (Bank of the West)</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Last invoice</span>
+                <span class="field-value">$11,400 &middot; paid May 8</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   const SCREENS = {
     dashboard: dashboardScreen,
     lead: leadDetailScreen,
     review: reviewScreen,
-    engagement: engagementScreen
+    engagement: engagementScreen,
+    onboarded: onboardedScreen
   };
 
   function renderScreen(name) {
