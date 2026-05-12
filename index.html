@@ -199,7 +199,7 @@ function Nav({ t }) {
     padding: '0 40px',
   };
 
-  const links = ['Services', 'Work', 'Insights', 'About'];
+  const links = ['Services', 'Work', 'Insights', 'Careers', 'Contact'];
 
   return (
     <nav style={navStyle}>
@@ -1834,13 +1834,99 @@ function Contact({ t }) {
   );
 }
 
+function Careers({ t }) {
+  const [hov, setHov] = React.useState(false);
+  return (
+    <section id="careers" style={{ background: t.bgAlt, padding: '120px 40px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ marginBottom: 56, textAlign: 'center' }}>
+          <Tag t={t}>JOIN US</Tag>
+          <h2 style={{
+            fontFamily: "'Epilogue', sans-serif", fontSize: 'clamp(36px, 5vw, 56px)',
+            fontWeight: 800, color: t.text, lineHeight: 1.05, letterSpacing: '-0.02em',
+            marginTop: 20, marginBottom: 18, maxWidth: 820, marginLeft: 'auto', marginRight: 'auto',
+          }}>
+            Help us re-imagine <span style={{ color: t.accent1 }}>how software gets built</span>.
+          </h2>
+          <p style={{ color: t.textMuted, fontSize: 17, lineHeight: 1.7, maxWidth: 680, margin: '0 auto' }}>
+            We use AI orchestration to do what used to require entire product, design, engineering, and QA teams — faster, leaner, and more affordably than anyone thought possible a year ago. We believe the future belongs to tiny teams with high trust, wide ownership, and the amplification that modern AI tools provide.
+          </p>
+        </div>
+
+        <a
+          href="https://www.linkedin.com/jobs/search/?currentJobId=4410866886&f_C=116764270&geoId=92000000&origin=COMPANY_PAGE_JOBS_CLUSTER_EXPANSION&originToLandingJobPostings=4410866886&trk=d_flagship3_company"
+          target="_blank"
+          rel="noopener"
+          onMouseEnter={() => setHov(true)}
+          onMouseLeave={() => setHov(false)}
+          style={{
+            display: 'block', background: t.bgCard, border: `1px solid ${hov ? t.accent1 + '50' : t.border}`,
+            borderRadius: 20, padding: '40px 44px', textDecoration: 'none', color: 'inherit',
+            transition: 'all 0.25s ease',
+            boxShadow: hov ? '0 24px 60px rgba(0,0,0,0.12)' : '0 4px 16px rgba(0,0,0,0.05)',
+            transform: hov ? 'translateY(-2px)' : 'translateY(0)',
+            maxWidth: 880, margin: '0 auto',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 18 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: t.accent1, fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: '0.1em', fontWeight: 600 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: t.accent1 }} />
+              FEATURED ROLE
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <span style={{ background: t.tagBg, color: t.tagText, padding: '5px 12px', borderRadius: 100, fontSize: 11, fontFamily: "'DM Mono', monospace", letterSpacing: '0.08em', fontWeight: 600 }}>CONTRACT</span>
+              <span style={{ background: t.tagBg, color: t.tagText, padding: '5px 12px', borderRadius: 100, fontSize: 11, fontFamily: "'DM Mono', monospace", letterSpacing: '0.08em', fontWeight: 600 }}>PROJECT-BASED</span>
+            </div>
+          </div>
+          <h3 style={{
+            fontFamily: "'Epilogue', sans-serif", fontSize: 'clamp(28px, 3vw, 38px)',
+            fontWeight: 800, color: t.text, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: 16,
+          }}>
+            AI Discovery Lead
+          </h3>
+          <p style={{ color: t.textMuted, fontSize: 16, lineHeight: 1.7, marginBottom: 14 }}>
+            Part product manager, part business analyst, part builder. Lead discovery with our business clients to re-imagine their workflows with an AI-centric approach. There's no traditional dev team — the build system is AI, and your job is to work it effectively.
+          </p>
+          <p style={{ color: t.textMuted, fontSize: 14, lineHeight: 1.7, marginBottom: 24 }}>
+            Discovery and analysis of client business processes · Creating specifications for our AI software dev agents · Reviewing output and completing UAT with clients.
+          </p>
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            paddingTop: 20, borderTop: `1px solid ${t.border}`, flexWrap: 'wrap', gap: 12,
+          }}>
+            <div style={{ color: t.textMuted, fontSize: 12, fontFamily: "'DM Mono', monospace", letterSpacing: '0.06em' }}>
+              POSTED ON LINKEDIN
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: t.accent1, fontSize: 14, fontWeight: 600 }}>
+              View role and apply
+              <span style={{ transition: 'transform 0.2s', transform: hov ? 'translateX(4px)' : 'none' }}>→</span>
+            </div>
+          </div>
+        </a>
+
+        <div style={{ textAlign: 'center', marginTop: 36 }}>
+          <a href="https://www.linkedin.com/company/ix-foundry/jobs/?viewAsMember=true" target="_blank" rel="noopener" style={{
+            color: t.textMuted, fontSize: 14, fontWeight: 500, textDecoration: 'none',
+            display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.color = t.text}
+          onMouseLeave={e => e.currentTarget.style.color = t.textMuted}
+          >
+            See all open roles on LinkedIn →
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer({ t }) {
   return (
     <footer style={{ background: t.bgCard, borderTop: `1px solid ${t.border}`, padding: '48px 40px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
         <img src={window.__resources?.logoImg || 'assets/logo.png'} alt="IX Foundry" style={{ height: 28, objectFit: 'contain', filter: t.bg.startsWith('#f') || t.bg.startsWith('#fff') ? 'opacity(0.6)' : 'brightness(0) invert(1)', opacity: 0.8 }} />
         <div style={{ display: 'flex', gap: 32 }}>
-          {['Services', 'Work', 'Insights', 'Contact'].map(l => (
+          {['Services', 'Work', 'Insights', 'Careers', 'Contact'].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: t.textMuted, fontSize: 13, textDecoration: 'none', transition: 'color 0.2s' }}
               onMouseEnter={e => e.target.style.color = t.text}
               onMouseLeave={e => e.target.style.color = t.textMuted}
@@ -1948,6 +2034,7 @@ function App() {
       <ClientStory t={t} />
       <Podcast t={t} />
       <Contact t={t} />
+      <Careers t={t} />
       <Footer t={t} />
     </div>
   );

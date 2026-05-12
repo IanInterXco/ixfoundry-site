@@ -2886,8 +2886,48 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
   const PASSWORD_HASH = '0acbba99bb096f0d6a9f1d207450502f321edd994e4822f9c1c6b4884347aec2';
   const SESSION_MS = 2 * 60 * 1000;
 
+  // Paste the Apps Script web app URL here once deployed.
+  // Leave as '' to disable tracking entirely (page will work normally).
+  const TRACKING_URL = 'https://script.google.com/macros/s/AKfycbyxaPmho2ivPzcMCRqxFP9c8aARNSIBORpjfmNc2DUkVCMOmrG938FWwS6iPjGtkKZ2/exec';
+
   let idleTimer = null;
   let unlocked = false;
+
+  function getSessionId() {
+    try {
+      let id = sessionStorage.getItem('fs_view_session');
+      if (!id) {
+        id = 'v_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+        sessionStorage.setItem('fs_view_session', id);
+      }
+      return id;
+    } catch (e) {
+      return 'v_anon';
+    }
+  }
+
+  function trackView(reason) {
+    if (!TRACKING_URL) return;
+    try {
+      fetch(TRACKING_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        keepalive: true,
+        body: JSON.stringify({
+          page: 'fourscore-proposal',
+          reason: reason,
+          sessionId: getSessionId(),
+          userAgent: navigator.userAgent,
+          referrer: document.referrer || '',
+          screen: (window.screen && (screen.width + 'x' + screen.height)) || '',
+          lang: navigator.language || '',
+          tz: (Intl.DateTimeFormat().resolvedOptions().timeZone) || '',
+        }),
+      });
+    } catch (e) {
+      // Silently swallow — tracking must never break the page.
+    }
+  }
 
   async function sha256(text) {
     const buf = new TextEncoder().encode(text);
@@ -2925,6 +2965,7 @@ html.is-locked-pre body > *:not(.auth-gate):not(.auth-shield):not(script) {
     if (gate) gate.setAttribute('hidden', '');
     if (shield) shield.setAttribute('hidden', '');
     resetTimer();
+    trackView('unlock');
   }
 
   function resetTimer() {
