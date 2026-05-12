@@ -209,7 +209,7 @@ function Nav({ t }) {
     padding: '0 40px',
   };
 
-  const links = ['Services', 'Work', 'Insights', 'Careers', 'Contact'];
+  const links = ['Services', 'Customers', 'Insights', 'Careers', 'Contact'];
 
   return (
     <nav style={navStyle}>
@@ -1156,7 +1156,7 @@ function Hero({ t, ctaStyle }) {
                 <span style={{ fontSize: 18 }}>→</span>
               </a>
             )}
-            <a href="#work" style={{
+            <a href="#customers" style={{
               color: t.textMuted, fontSize: 15, textDecoration: 'none', fontWeight: 500,
               display: 'inline-flex', alignItems: 'center', gap: 6,
               transition: 'color 0.2s',
@@ -1164,7 +1164,7 @@ function Hero({ t, ctaStyle }) {
             onMouseEnter={e => e.currentTarget.style.color = t.text}
             onMouseLeave={e => e.currentTarget.style.color = t.textMuted}
             >
-              See our work ↓
+              See our customers ↓
             </a>
           </div>
 
@@ -1334,7 +1334,7 @@ function CaseStudies({ t }) {
   ];
 
   return (
-    <section id="work" style={{ background: t.bgAlt, padding: '120px 40px' }}>
+    <section id="customers" style={{ background: t.bgAlt, padding: '120px 40px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 64, flexWrap: 'wrap', gap: 24 }}>
           <div>
@@ -1941,7 +1941,7 @@ function Footer({ t }) {
       <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
         <img src={window.__resources?.logoImg || 'assets/logo.png'} alt="IX Foundry" style={{ height: 28, objectFit: 'contain', filter: `${t.bg.startsWith('#f') || t.bg.startsWith('#fff') ? 'opacity(0.6)' : 'brightness(0) invert(1)'} ${t.logoFilter || ''}`.trim(), opacity: 0.8 }} />
         <div style={{ display: 'flex', gap: 32 }}>
-          {['Services', 'Work', 'Insights', 'Careers', 'Contact'].map(l => (
+          {['Services', 'Customers', 'Insights', 'Careers', 'Contact'].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: t.textMuted, fontSize: 13, textDecoration: 'none', transition: 'color 0.2s' }}
               onMouseEnter={e => e.target.style.color = t.text}
               onMouseLeave={e => e.target.style.color = t.textMuted}
