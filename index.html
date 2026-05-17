@@ -1642,13 +1642,13 @@ function Podcast({ t }) {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 64, flexWrap: 'wrap', gap: 24 }}>
           <div>
-            <Tag t={t}>PODCAST</Tag>
+            <Tag t={t}>WRITING &amp; PODCAST</Tag>
             <h2 style={{
               fontFamily: "'Epilogue', sans-serif", fontSize: 'clamp(32px, 4vw, 48px)',
               fontWeight: 800, color: t.text, lineHeight: 1.1, letterSpacing: '-0.02em', marginTop: 20,
             }}>How we think.</h2>
-            <p style={{ color: t.textMuted, fontSize: 16, lineHeight: 1.6, marginTop: 12, maxWidth: 440 }}>
-              The <em style={{ color: t.accent1, fontStyle: 'italic' }}>Breakneck Podcast</em> — co-hosted by our founder Ian Sweeney with Matt Pasienski. Decoding AI for businesses of all sizes, from the perspective of founders actually using it.
+            <p style={{ color: t.textMuted, fontSize: 16, lineHeight: 1.6, marginTop: 12, maxWidth: 460 }}>
+              Where we share what we&rsquo;re learning — in long-form writing and on the <em style={{ color: t.accent1, fontStyle: 'italic' }}>Breakneck Podcast</em>, co-hosted by our founder Ian Sweeney with Matt Pasienski. Practical, founder-perspective takes on AI-enabled software for real businesses.
             </p>
           </div>
           <a href="https://open.spotify.com/show/1rasMOxNvosFsF0z2cXPWf" target="_blank" rel="noopener" style={{
@@ -1657,6 +1657,57 @@ function Podcast({ t }) {
             fontFamily: "'DM Mono', monospace", letterSpacing: '0.05em', flexShrink: 0,
           }}>ALL EPISODES →</a>
         </div>
+
+        {/* Featured writing */}
+        <a
+          href="https://www.linkedin.com/pulse/custom-code-frontier-ian-sweeney-pzlsc/"
+          target="_blank" rel="noopener"
+          style={{
+            background: t.bgCard, border: `1px solid ${t.border}`,
+            borderRadius: 16, padding: '36px 40px',
+            display: 'flex', gap: 32, alignItems: 'center',
+            marginBottom: 16, flexWrap: 'wrap',
+            textDecoration: 'none', color: 'inherit',
+            transition: 'border-color 0.2s, transform 0.2s',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = t.accent2 + '60'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = t.border; }}
+        >
+          <div style={{
+            width: 120, height: 120, borderRadius: 12, flexShrink: 0,
+            background: t.accent2Soft || '#dce3f7',
+            border: `1px solid ${t.border}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            position: 'relative', overflow: 'hidden',
+          }}>
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M14 4h6v6m0 0L10 20H4v-6L14 4z" stroke={t.accent2} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
+            </svg>
+            <div style={{
+              position: 'absolute', bottom: 8, left: 8, right: 8,
+              fontFamily: "'DM Mono', monospace", fontSize: 9, color: t.accent2,
+              letterSpacing: '0.06em', textAlign: 'center', opacity: 0.7,
+            }}>WRITING</div>
+          </div>
+          <div style={{ flex: 1, minWidth: 220 }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.accent2, letterSpacing: '0.08em' }}>LATEST WRITING</span>
+              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.textMuted }}>May 13, 2026</span>
+              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.textMuted }}>LinkedIn</span>
+            </div>
+            <h3 style={{
+              fontFamily: "'Epilogue', sans-serif", fontSize: 22, fontWeight: 800,
+              color: t.text, lineHeight: 1.25, marginBottom: 10, letterSpacing: '-0.01em',
+            }}>Custom Code Frontier</h3>
+            <p style={{ color: t.textMuted, fontSize: 14, lineHeight: 1.65, marginBottom: 4 }}>
+              Custom software used to demand big budgets, long timelines, and large teams. The economics just changed — and a new frontier is opening for businesses that can move with it.
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 14 }}>
+              <span style={{ color: t.accent1, fontSize: 13, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 6 }}>Read on LinkedIn →</span>
+            </div>
+          </div>
+        </a>
 
         {/* Featured top episode */}
         <PodcastFeatured ep={episodes[0]} t={t} />
