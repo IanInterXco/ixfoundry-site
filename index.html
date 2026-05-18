@@ -17,6 +17,7 @@
 <meta name="ext-resource-dependency" content="assets/logo.png" data-resource-id="logoImg" />
 <meta name="ext-resource-dependency" content="assets/quinn-posner.png" data-resource-id="quinnImg" />
 <meta name="ext-resource-dependency" content="assets/ep-musk-openai.png" data-resource-id="muskOpenaiImg" />
+<meta name="ext-resource-dependency" content="assets/custom-code-frontier.png" data-resource-id="customCodeFrontierImg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -1664,35 +1665,30 @@ function Podcast({ t }) {
           target="_blank" rel="noopener"
           style={{
             background: t.bgCard, border: `1px solid ${t.border}`,
-            borderRadius: 16, padding: '36px 40px',
-            display: 'flex', gap: 32, alignItems: 'center',
+            borderRadius: 16, padding: '24px 28px',
+            display: 'flex', gap: 28, alignItems: 'center',
             marginBottom: 16, flexWrap: 'wrap',
             textDecoration: 'none', color: 'inherit',
-            transition: 'border-color 0.2s, transform 0.2s',
+            transition: 'border-color 0.2s, box-shadow 0.2s, transform 0.2s',
             boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
           }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = t.accent2 + '60'; }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = t.border; }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = t.accent2 + '60'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.08)'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = t.border; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)'; }}
         >
           <div style={{
-            width: 120, height: 120, borderRadius: 12, flexShrink: 0,
-            background: t.accent2Soft || '#dce3f7',
+            width: 200, height: 120, borderRadius: 10, flexShrink: 0,
+            overflow: 'hidden', background: '#000',
             border: `1px solid ${t.border}`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            position: 'relative', overflow: 'hidden',
           }}>
-            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M14 4h6v6m0 0L10 20H4v-6L14 4z" stroke={t.accent2} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
-            </svg>
-            <div style={{
-              position: 'absolute', bottom: 8, left: 8, right: 8,
-              fontFamily: "'DM Mono', monospace", fontSize: 9, color: t.accent2,
-              letterSpacing: '0.06em', textAlign: 'center', opacity: 0.7,
-            }}>WRITING</div>
+            <img
+              src={window.__resources?.customCodeFrontierImg || 'assets/custom-code-frontier.png'}
+              alt="Captain's Starlog: twelve months ago we armed the crew with co-pilots and told them to tokenmaxx — today, adrift in deep enterprise space."
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '30% center', display: 'block' }}
+            />
           </div>
           <div style={{ flex: 1, minWidth: 220 }}>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.accent2, letterSpacing: '0.08em' }}>LATEST WRITING</span>
+              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.accent2, letterSpacing: '0.08em', fontWeight: 600 }}>LATEST WRITING</span>
               <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.textMuted }}>May 13, 2026</span>
               <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.textMuted }}>LinkedIn</span>
             </div>
@@ -1701,7 +1697,7 @@ function Podcast({ t }) {
               color: t.text, lineHeight: 1.25, marginBottom: 10, letterSpacing: '-0.01em',
             }}>Custom Code Frontier</h3>
             <p style={{ color: t.textMuted, fontSize: 14, lineHeight: 1.65, marginBottom: 4 }}>
-              Custom software used to demand big budgets, long timelines, and large teams. The economics just changed — and a new frontier is opening for businesses that can move with it.
+              Twelve months into the co-pilot era, many teams are armed with AI tools but adrift — unsure how to chart a course to real business value. A look at the new frontier and how to navigate it.
             </p>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 14 }}>
               <span style={{ color: t.accent1, fontSize: 13, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 6 }}>Read on LinkedIn →</span>
